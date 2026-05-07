@@ -2,47 +2,22 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Login - La Contessa</title>
+  <title>Login - Gestionale Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
-  <meta name="theme-color" content="#D4C8AB">
+  <meta name="theme-color" content="#3b82f6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
   
+  <!-- Temi -->
+  <link rel="stylesheet" href="css/themes.css">
+  
   <!-- Supabase -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/theme-manager.js"></script>
   
   <style>
-    :root {
-      /* Palette Sabbia & Nero */
-      --sabbia: #D4C8AB;
-      --sabbia-dark: #C4B89B;
-      --sabbia-light: #E4D8BB;
-      --sabbia-pale: #EDE6D8;
-      --accent-warm: #B8A88A;
-      --nero: #1a1a1a;
-      
-      --bg: #FAF8F5;
-      --card: #ffffff;
-      --card-subtle: #F5F2ED;
-      --primary: #D4C8AB;
-      --primary-dark: #C4B89B;
-      --primary-light: #E4D8BB;
-      --muted: #8B8378;
-      --border: #E0D8C8;
-      --border-light: #EDE6D8;
-      --text: #2C2824;
-      --text-light: #6B6458;
-      --error: #C85A54;
-      --error-bg: #FFF5F5;
-      --shadow-sm: 0 2px 4px rgba(212, 200, 171, 0.1);
-      --shadow: 0 3px 8px rgba(212, 200, 171, 0.2), 0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md: 0 6px 16px rgba(212, 200, 171, 0.25), 0 2px 8px rgba(0,0,0,0.1);
-      --shadow-lg: 0 12px 32px rgba(212, 200, 171, 0.3), 0 4px 12px rgba(0,0,0,0.12);
-      --shadow-xl: 0 20px 48px rgba(212, 200, 171, 0.35), 0 8px 20px rgba(0,0,0,0.15);
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -65,9 +40,9 @@
       min-height: 100vh;
       padding: 2rem;
       background: 
-        radial-gradient(ellipse at top, rgba(228, 216, 187, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(212, 200, 171, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #FAF8F5 0%, #F5F2ED 100%);
+        radial-gradient(ellipse at top, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     }
 
     .login-container {
@@ -92,7 +67,7 @@
 
     /* Header con logo */
     .login-header {
-      background: linear-gradient(135deg, #D4C8AB 0%, #C9B88F 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       padding: 2.5rem 3rem;
       text-align: center;
       position: relative;
@@ -127,6 +102,11 @@
       object-fit: contain;
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
       opacity: 1;
+      display: none;
+    }
+    
+    .logo-img.has-logo {
+      display: block;
     }
 
     .login-title {
@@ -179,14 +159,14 @@
     }
 
     .form-input:hover {
-      border-color: var(--sabbia);
+      border-color: var(--primary);
       background: white;
     }
 
     .form-input:focus {
-      border-color: #C9B88F;
+      border-color: var(--primary);
       background: white;
-      box-shadow: 0 0 0 4px rgba(201, 184, 143, 0.25), 0 4px 12px rgba(212, 200, 171, 0.3);
+      box-shadow: 0 0 0 4px var(--primary-pale), var(--shadow-md);
       transform: translateY(-1px);
     }
 
@@ -259,27 +239,27 @@
       font-weight: 700;
       font-family: inherit;
       color: white;
-      background: linear-gradient(135deg, #C4B89B 0%, #B8A88A 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       border: none;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
       margin-top: 0.5rem;
-      box-shadow: 0 6px 20px rgba(196, 184, 155, 0.5), 0 2px 8px rgba(184, 168, 138, 0.3);
+      box-shadow: var(--shadow-lg);
       letter-spacing: 0.04em;
-      text-shadow: 0 1px 2px rgba(26, 26, 26, 0.15);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     }
 
     .login-btn:hover {
-      background: linear-gradient(135deg, #B8A88A 0%, #A89A7D 100%);
-      box-shadow: 0 8px 24px rgba(184, 168, 138, 0.6), 0 4px 12px rgba(168, 154, 125, 0.4);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent) 100%);
+      box-shadow: var(--shadow-xl);
       transform: translateY(-3px);
     }
 
     .login-btn:active {
       transform: translateY(0px);
-      box-shadow: 0 2px 8px rgba(212, 200, 171, 0.4);
+      box-shadow: var(--shadow-md);
     }
 
     .login-btn:disabled {
@@ -376,10 +356,10 @@
     <!-- Header -->
     <div class="login-header">
       <div class="logo-wrapper">
-        <img src="assets/IMG_5695.jpeg" alt="Logo La Contessa" style="width: 130px; height: 130px;" />
+        <img src="" alt="Logo" class="logo-img logo-image" style="width: 130px; height: 130px;" />
         <div>
-          <h1 class="login-title">La Contessa</h1>
-          <p class="login-subtitle">Gestionale Magazzino</p>
+          <h1 class="login-title project-name">Gestionale Demo</h1>
+          <p class="login-subtitle">Dashboard</p>
         </div>
       </div>
     </div>
@@ -437,7 +417,7 @@
     </div>
   </div>
 
-  <p class="credits">© 2026 La Contessa Ristorante</p>
+  <p class="credits">© 2026 <span class="project-name">Gestionale Demo</span></p>
 </div>
 
 <script>
@@ -526,9 +506,14 @@
       // Nascondi subito la pagina di login per evitare flicker
       document.querySelector('.login-container').style.display = 'none';
 
+      // Ottieni configurazione per il logo di transizione
+      const config = themeManager.getConfig();
+      const transitionLogo = config.logo || '';
+      const logoHtml = transitionLogo ? `<img src="${transitionLogo}" alt="Logo" class="transition-logo" />` : '<div class="transition-logo-placeholder">🎯</div>';
+      
       // Animazione di ingresso con cerchio di pallini
       document.body.insertAdjacentHTML('beforeend', `
-        <div id="loginTransition" style="position:fixed;z-index:9999;inset:0;background:linear-gradient(135deg,#D4C8AB 0%,#C9B88F 50%,#B8A88A 100%);display:flex;align-items:center;justify-content:center;animation:fadeInOut 2.4s cubic-bezier(.4,0,.2,1);">
+        <div id="loginTransition" style="position:fixed;z-index:9999;inset:0;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 50%,var(--accent) 100%);display:flex;align-items:center;justify-content:center;animation:fadeInOut 2.4s cubic-bezier(.4,0,.2,1);">
           <div class="loader-container">
             <div class="orbit-ring">
               <span class="dot dot-1"></span>
@@ -540,7 +525,7 @@
               <span class="dot dot-7"></span>
               <span class="dot dot-8"></span>
             </div>
-            <img src="assets/IMG_5695.jpeg" alt="Logo La Contessa" class="transition-logo" />
+            ${logoHtml}
           </div>
         </div>
         <style>
@@ -548,10 +533,18 @@
             display: flex; 
             align-items: center; 
             justify-content: center;
-            background-image: 
-              radial-gradient(circle at 30% 20%, rgba(255,255,255,0.2) 0%, transparent 40%),
-              radial-gradient(circle at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 40%),
-              linear-gradient(135deg, #D4C8AB 0%, #C9B88F 50%, #B8A88A 100%);
+          }
+          
+          .transition-logo-placeholder {
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            z-index: 2;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.5));
+            animation: breathe 2s ease-in-out infinite;
           }
           
           .loader-container {
@@ -646,7 +639,30 @@
 
   // Focus sul primo campo
   usernameInput.focus();
+  
+  // ===================================
+  // INIZIALIZZAZIONE TEMA E CONFIGURAZIONE
+  // ===================================
+  
+  // Verifica se il progetto è stato configurato
+  const config = themeManager.getConfig();
+  
+  // Se non configurato, reindirizza a setup.html
+  if (!config.configured) {
+    window.location.href = 'setup.html';
+  }
+  
+  // Applica tema e configurazione
+  themeManager.applyAll();
+  
+  // Gestione logo
+  const logoImg = document.querySelector('.logo-img');
+  if (config.logo) {
+    logoImg.src = config.logo;
+    logoImg.classList.add('has-logo');
+  }
 </script>
 
 </body>
 </html>
+

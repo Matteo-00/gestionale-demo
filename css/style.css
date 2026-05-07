@@ -16,10 +16,10 @@
   justify-content: center;
 }
 .stats-chart-tile.big {
-  background: linear-gradient(135deg, #ffffff 0%, #FAF8F5 100%);
+  background: linear-gradient(135deg, var(--card) 0%, var(--card-subtle) 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(212, 200, 171, 0.25);
-  border: 1px solid rgba(212, 200, 171, 0.2);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
   padding: 1.6rem 2.2rem 2.2rem 2.2rem;
   min-width: 340px;
   min-height: 340px;
@@ -30,25 +30,25 @@
   transition: all 0.3s ease;
 }
 .stats-chart-tile.big:hover {
-  box-shadow: 0 12px 40px rgba(212, 200, 171, 0.35), 0 4px 12px rgba(184, 168, 138, 0.15);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-3px);
-  border-color: var(--sabbia);
+  border-color: var(--primary);
 }
 #supplierPieChart {
-  background: #f8fafc;
+  background: var(--card-subtle);
   border-radius: 14px;
   margin-top: 0.5rem;
   width: 340px !important;
   height: 340px !important;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.06);
+  box-shadow: var(--shadow);
 }
 #topProductsBarChart {
-  background: #f8fafc;
+  background: var(--card-subtle);
   border-radius: 14px;
   margin-top: 0.5rem;
   width: 440px !important;
   height: 340px !important;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.06);
+  box-shadow: var(--shadow);
 }
 .classic-stats-summary.chicchette.card-stats.stats-lab-beauty {
   background: none;
@@ -66,10 +66,10 @@
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  background: linear-gradient(135deg, #EDE6D8 0%, #E4D8BB 100%);
+  background: linear-gradient(135deg, var(--primary-pale) 0%, var(--primary-light) 100%);
   border-radius: 15px;
-  box-shadow: 0 3px 15px rgba(212, 200, 171, 0.3);
-  border: 1px solid rgba(212, 200, 171, 0.4);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
   padding: 1.3rem 1.7rem;
   font-size: 1.13rem;
   color: var(--text);
@@ -80,7 +80,7 @@
   transition: all 0.3s ease;
 }
 .stat-card.lab-beauty:hover {
-  box-shadow: 0 8px 32px rgba(212, 200, 171, 0.45), 0 4px 16px rgba(184, 168, 138, 0.2);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-2px);
 }
 .stat-icon {
@@ -169,7 +169,7 @@
 .stats-chart-tile.lab-big {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(212, 200, 171,0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
   padding: 1.6rem 2.2rem 2.2rem 2.2rem;
   min-width: 340px;
   min-height: 420px;
@@ -180,13 +180,13 @@
   transition: box-shadow 0.18s, transform 0.18s;
 }
 .stats-chart-tile.lab-big:hover {
-  box-shadow: 0 10px 32px rgba(212, 200, 171,0.16);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px) scale(1.03);
 }
 .stats-chart-tile.lab-side {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(212, 200, 171,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 1.1rem 1.5rem 1.5rem 1.5rem;
   min-width: 220px;
   min-height: 220px;
@@ -201,7 +201,7 @@
   margin-top: 0.5rem;
   max-width: 100%;
   height: auto !important;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 }
 #priceDistChart {
   background: #f8fafc;
@@ -209,12 +209,12 @@
   margin-top: 0.5rem;
   max-width: 100%;
   height: auto !important;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 }
 .lab-stats-summary.formal {
   background: #f9fafb;
   border-radius: 13px;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.04);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
   padding: 1.3rem 1.7rem;
   font-size: 1.09rem;
   color: #1e293b;
@@ -320,10 +320,10 @@
 .stats-tabs {
   display: flex;
   gap: 1.2rem;
-  background: linear-gradient(135deg, var(--sabbia-pale) 0%, #f9f6f0 100%);
+  background: linear-gradient(135deg, var(--primary-pale) 0%, var(--card-subtle) 100%);
   border-radius: 40px;
   padding: 0.25rem 0.4rem;
-  box-shadow: 0 2px 12px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 .stats-tab {
   background: transparent;
@@ -336,20 +336,20 @@
   cursor: pointer;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
   outline: none;
-  box-shadow: 0 0 0 rgba(212, 200, 171, 0);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
   position: relative;
 }
 .stats-tab.active {
   background: linear-gradient(90deg, var(--primary) 0%, var(--accent-warm) 100%);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(212, 200, 171, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transform: scale(1.08);
   z-index: 1;
 }
 .stats-tab:not(.active):hover {
-  background: var(--sabbia-light);
+  background: var(--primary-light);
   color: var(--nero);
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transform: scale(1.04);
 }
 .classic-stats-flex {
@@ -372,7 +372,7 @@
 .stats-chart-tile.big {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(212, 200, 171,0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
   padding: 1.2rem 1.6rem 1.5rem 1.6rem;
   min-width: 260px;
   min-height: 280px;
@@ -383,7 +383,7 @@
   transition: box-shadow 0.18s, transform 0.18s;
 }
 .stats-chart-tile.big:hover {
-  box-shadow: 0 10px 32px rgba(212, 200, 171,0.16);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px) scale(1.03);
 }
 #supplierPieChart, #topProductsBarChart, #monthlyTrendChart, #avgQualityChart {
@@ -392,7 +392,7 @@
   margin-top: 0.5rem;
   width: 320px !important;
   height: 320px !important;
-  box-shadow: 0 1px 8px rgba(212, 200, 171,0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 }
 #topProductsBarChart, #monthlyTrendChart {
   width: 420px !important;
@@ -412,9 +412,9 @@
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  background: linear-gradient(90deg, var(--sabbia-pale) 0%, #f9f6f0 100%);
+  background: linear-gradient(90deg, var(--primary-pale) 0%, var(--card-subtle) 100%);
   border-radius: 13px;
-  box-shadow: 0 1px 8px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
   padding: 1.1rem 1.3rem;
   font-size: 1.08rem;
   color: var(--nero);
@@ -423,7 +423,7 @@
   transition: box-shadow 0.18s;
 }
 .stat-card:hover {
-  box-shadow: 0 4px 18px rgba(212, 200, 171, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
 }
 .stat-icon {
   font-size: 2.1rem;
@@ -446,19 +446,19 @@
 /* AI INTRO (sotto filtri AI) */
 .ai-intro {
   margin: 0.8rem 0 1rem 0;
-  background: linear-gradient(90deg, var(--sabbia-pale) 0%, #f9f6f0 100%);
+  background: linear-gradient(90deg, var(--primary-pale) 0%, var(--card-subtle) 100%);
   border-radius: 8px;
   padding: 0.8rem 1rem;
   color: var(--nero);
   font-size: 0.8rem;
-  box-shadow: 0 1px 8px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
 .classic-stats-summary.chicchette {
-  background: linear-gradient(90deg, var(--sabbia-pale) 0%, #f9f6f0 100%);
+  background: linear-gradient(90deg, var(--primary-pale) 0%, var(--card-subtle) 100%);
   border-radius: 14px;
   padding: 1.1rem 1.5rem;
-  box-shadow: 0 1px 8px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
   min-width: 210px;
   max-width: 270px;
   margin-top: 0.2rem;
@@ -555,7 +555,7 @@
   background: linear-gradient(90deg, var(--primary) 0%, var(--accent-warm) 100%);
   color: #fff;
   border-color: var(--primary);
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .classic-stats-charts {
   display: grid;
@@ -565,7 +565,7 @@
 #supplierPieChart, #topProductsBarChart {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(212, 200, 171, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 1.2rem;
   margin-top: 0.5rem;
 }
@@ -573,7 +573,7 @@
   background: #f9fafb;
   border-radius: 10px;
   padding: 1.2rem 1.5rem;
-  box-shadow: 0 1px 4px rgba(212, 200, 171, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   margin-top: 1.5rem;
 }
 .classic-stats-summary h4 {
@@ -607,17 +607,17 @@
   padding: 0.4em 1em;
   border: 1.5px solid var(--primary);
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--sabbia-light) 0%, var(--sabbia-pale) 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
   margin-left: 0.7rem;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .gestionale-deco:hover {
-  background: linear-gradient(135deg, var(--sabbia) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(212, 200, 171, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .ia-tile {
@@ -740,7 +740,7 @@
 }
 
 .search-section:hover, .add-section:hover {
-  box-shadow: 0 4px 12px rgba(212, 200, 171, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-left-width: 4px;
 }
 
@@ -780,7 +780,7 @@ input::placeholder, select::placeholder {
 input:focus, select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(212, 200, 171, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   background: white;
 }
 
@@ -885,30 +885,41 @@ h2 {
 }
 
 :root {
-  /* Palette colori elegante - Sabbia & Nero */
-  --nero: #1a1a1a;
-  --sabbia: #D4C8AB;
-  --sabbia-dark: #C4B89B;
-  --sabbia-light: #E4D8BB;
-  --sabbia-pale: #EDE6D8;
-  --accent-warm: #B8A88A;
-  --accent-gold: #C9B88F;
+  /* 
+   * Colori di default (Theme 01: Slate Minimal)
+   * Design professionale enterprise minimal
+   */
+  --nero: #020617;
+  --accent-warm: #334155;
+  --accent-gold: #64748b;
   
-  --bg: #FAF8F5;
+  --bg: #fcfcfd;
   --card: #ffffff;
-  --card-subtle: #F5F2ED;
-  --primary: #D4C8AB;
-  --primary-dark: #C4B89B;
-  --primary-light: #E4D8BB;
-  --accent: #B8A88A;
-  --muted: #8B8378;
-  --border: #E0D8C8;
-  --border-light: #EDE6D8;
-  --text: #2C2824;
-  --text-light: #6B6458;
-  --shadow: 0 2px 8px rgba(212, 200, 171, 0.15), 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(212, 200, 171, 0.25), 0 2px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 8px 24px rgba(212, 200, 171, 0.3), 0 4px 12px rgba(0,0,0,0.12);
+  --card-subtle: #f8fafc;
+  --primary: #64748b;
+  --primary-dark: #475569;
+  --primary-light: #94a3b8;
+  --primary-pale: #f1f5f9;
+  --secondary: #475569;
+  --accent: #0f172a;
+  --muted: #cbd5e1;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --error: #ef4444;
+  --error-bg: #fef2f2;
+  --chart-1: #64748b;
+  --chart-2: #94a3b8;
+  --chart-3: #cbd5e1;
+  --chart-4: #e2e8f0;
+  --shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 2px 4px 0 rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 4px 8px 0 rgba(15, 23, 42, 0.08);
+  --shadow-xl: 0 8px 16px 0 rgba(15, 23, 42, 0.1);
 }
 
 /* page layout safe */
@@ -954,13 +965,13 @@ body {
   top: 0;
   width: 200px;
   height: 100vh;
-  background: linear-gradient(180deg, #FAF8F5 0%, #F5F2ED 50%, #EDE6D8 100%);
+  background: linear-gradient(180deg, var(--card-subtle) 0%, var(--card-subtle) 50%, var(--primary-pale) 100%);
   border-right: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
-  box-shadow: 3px 0 20px rgba(212, 200, 171, 0.15);
+  box-shadow: 3px 0 20px rgba(0, 0, 0, 0.1);
   animation: slideInLeft 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -997,7 +1008,7 @@ body {
   height: auto;
   object-fit: contain;
   margin-bottom: 1rem;
-  filter: drop-shadow(0 4px 12px rgba(212, 200, 171, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: gentlePulse 3s ease-in-out infinite;
 }
@@ -1005,17 +1016,17 @@ body {
 @keyframes gentlePulse {
   0%, 100% {
     transform: scale(1);
-    filter: drop-shadow(0 4px 12px rgba(212, 200, 171, 0.3));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   }
   50% {
     transform: scale(1.02);
-    filter: drop-shadow(0 6px 16px rgba(212, 200, 171, 0.4));
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.1));
   }
 }
 
 .sidebar-logo:hover {
   transform: scale(1.08) rotate(2deg);
-  filter: drop-shadow(0 8px 20px rgba(212, 200, 171, 0.5));
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
   animation: none;
 }
 
@@ -1050,7 +1061,7 @@ body {
   border-bottom:1px solid var(--border);
   backdrop-filter: blur(12px);
   z-index:40;
-  box-shadow: 0 2px 12px rgba(212, 200, 171, 0.15), 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .logo{
@@ -1095,15 +1106,15 @@ nav button{
 
 nav button:hover{ 
   color: var(--primary);
-  background: rgba(212, 200, 171, 0.15);
+  background: rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
 nav button.active{
   color: var(--nero);
   font-weight:600;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--sabbia-light) 100%);
-  box-shadow: 0 3px 12px rgba(212, 200, 171, 0.4), 0 1px 3px rgba(184, 168, 138, 0.2);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* indicator used for subtle underline when not using full pill active style */
@@ -1133,7 +1144,7 @@ main{
 
 /* card area */
 .card {
-  background: linear-gradient(135deg, #ffffff 0%, #FAF8F5 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--card-subtle) 100%);
   padding: 1rem;
   border-radius: 12px;
   box-shadow: var(--shadow);
@@ -1145,7 +1156,7 @@ main{
 }
 
 .card:hover {
-  box-shadow: 0 6px 20px rgba(212, 200, 171, 0.25), 0 2px 8px rgba(184, 168, 138, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.08);
   border-left-width: 5px;
   transform: translateY(-2px);
 }
@@ -1173,13 +1184,13 @@ input, select {
   transition: all 0.3s ease;
   display: block;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(212, 200, 171, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 input:focus,select:focus{
   outline:none;
   border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(212, 200, 171, 0.15), 0 4px 18px rgba(212, 200, 171, 0.2);
+  box-shadow:0 0 0 4px rgba(0, 0, 0, 0.1), 0 4px 18px rgba(0, 0, 0, 0.1);
   background: white;
   transform: translateY(-1px);
 }
@@ -1202,28 +1213,28 @@ input:focus,select:focus{
   padding: 0.7rem 1.2rem;
   border: 1px solid var(--primary);
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--nero);
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  box-shadow: 0 3px 12px rgba(212, 200, 171, 0.35);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
-  -webkit-tap-highlight-color: rgba(212, 200, 171, 0.2);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   user-select: none;
 }
 
 .primary:hover {
-  background: linear-gradient(135deg, var(--sabbia-dark) 0%, var(--accent-warm) 100%);
-  box-shadow: 0 6px 20px rgba(212, 200, 171, 0.45), 0 2px 8px rgba(184, 168, 138, 0.25);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-warm) 100%);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
 .primary:active {
   transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   background: var(--primary-dark);
 }
   border-color: var(--primary-dark);
@@ -1304,7 +1315,7 @@ th::-webkit-scrollbar-track, td::-webkit-scrollbar-track {
 th {
   text-transform: uppercase;
   font-size: 0.75rem;
-  background: linear-gradient(135deg, var(--sabbia-pale) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary-pale) 0%, var(--primary-light) 100%);
   letter-spacing: 0.05em;
   color: var(--text);
   font-weight: 700;
@@ -1316,9 +1327,9 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: rgba(212, 200, 171, 0.12);
+  background: rgba(0, 0, 0, 0.1);
   transform: translateX(2px);
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 tbody tr:last-child td {
@@ -1331,11 +1342,11 @@ tbody tr:last-child td {
   gap: 0.6rem;
   grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--card-subtle) 0%, var(--sabbia-pale) 100%);
+  background: linear-gradient(135deg, var(--card-subtle) 0%, var(--primary-pale) 100%);
   border-radius: 10px;
   padding: 1rem;
   border: 1px solid var(--border);
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filters label {
@@ -1417,14 +1428,14 @@ tbody tr:last-child td {
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .pagination button:hover {
-  background: linear-gradient(135deg, var(--sabbia) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--nero);
   border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(212, 200, 171, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
   background: var(--primary);
@@ -1524,14 +1535,14 @@ footer{
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .export button:hover {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--nero);
   border-color: var(--primary);
-  box-shadow: 0 4px 16px rgba(212, 200, 171, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
@@ -1543,8 +1554,8 @@ footer{
   max-width: 85vw;
   max-height: 85vh;
   overflow: auto;
-  background: linear-gradient(135deg, #ffffff 0%, #FAF8F5 100%);
-  box-shadow: 0 20px 60px rgba(212, 200, 171, 0.35), 0 8px 24px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #ffffff 0%, var(--card-subtle) 100%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0,0,0,0.15);
   border: 1px solid var(--border-light);
 }
 
@@ -1689,33 +1700,33 @@ h2 {
 
 /* Colori diversi per ogni badge */
 .stat-badge-purple {
-  background: linear-gradient(135deg, #E4D8BB 0%, #EDE6D8 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
   border-color: var(--primary);
 }
 
 .stat-badge-purple:hover {
-  background: linear-gradient(135deg, #D4C8AB 0%, #E4D8BB 100%);
-  border-color: var(--sabbia-dark);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-color: var(--primary-dark);
 }
 
 .stat-badge-teal {
-  background: linear-gradient(135deg, #E4D8BB 0%, #EDE6D8 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
   border-color: var(--primary);
 }
 
 .stat-badge-teal:hover {
-  background: linear-gradient(135deg, #D4C8AB 0%, #E4D8BB 100%);
-  border-color: var(--sabbia-dark);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-color: var(--primary-dark);
 }
 
 .stat-badge-amber {
-  background: linear-gradient(135deg, #E4D8BB 0%, #EDE6D8 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
   border-color: var(--primary);
 }
 
 .stat-badge-amber:hover {
-  background: linear-gradient(135deg, #D4C8AB 0%, #E4D8BB 100%);
-  border-color: var(--sabbia-dark);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-color: var(--primary-dark);
 }
 
 .stat-badge-label {
@@ -1751,7 +1762,7 @@ h2 {
 
 /* Pillola andamento spese */
 .spending-trends-pill {
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.08) 0%, rgba(255,255,255,0.98) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255,255,255,0.98) 100%);
   border: 1px solid var(--border);
   border-left: 4px solid var(--primary);
   border-radius: 10px;
@@ -1762,10 +1773,10 @@ h2 {
 }
 
 .spending-trends-pill:hover {
-  box-shadow: 0 6px 20px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   border-left-width: 5px;
   transform: translateY(-3px);
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.12) 0%, rgba(255,255,255,1) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255,255,255,1) 100%);
 }
 
 .pill-header {
@@ -1789,21 +1800,21 @@ h2 {
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 1.1rem;
-  background: linear-gradient(135deg, var(--sabbia) 0%, var(--sabbia-light) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   border: 2px solid var(--primary);
   border-radius: 14px;
   font-size: 0.95rem;
   font-weight: 800;
   color: var(--nero);
   margin-left: 0.5rem;
-  box-shadow: 0 3px 10px rgba(212, 200, 171, 0.35), 0 1px 4px rgba(184, 168, 138, 0.2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .period-total-badge:hover {
-  background: linear-gradient(135deg, var(--sabbia-light) 0%, var(--sabbia-pale) 100%);
-  box-shadow: 0 5px 16px rgba(212, 200, 171, 0.45), 0 2px 6px rgba(184, 168, 138, 0.25);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
@@ -1859,13 +1870,13 @@ h2 {
 
 .trends-filter:hover {
   border-color: var(--primary);
-  background-color: rgba(212, 200, 171, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .trends-filter:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 .trends-chart-wrapper {
@@ -1958,7 +1969,7 @@ h2 {
   cursor: pointer;
   margin: 1rem 0;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 300px;
   margin-left: auto;
@@ -1967,7 +1978,7 @@ h2 {
 
 .ai-analyze-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 200, 171, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .ai-analyze-btn:disabled {
@@ -2025,7 +2036,7 @@ h2 {
 }
 
 .ai-summary {
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.08) 0%, rgba(255, 255, 255, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.95) 100%);
   border: 2px solid var(--primary);
   border-radius: 12px;
   padding: 1.5rem;
@@ -2098,7 +2109,7 @@ h2 {
 }
 
 .ranking-table tr:hover {
-  background: rgba(212, 200, 171, 0.02);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .ranking-table tr:last-child td {
@@ -2151,7 +2162,7 @@ h2 {
 }
 
 .quality-ottima {
-  background: var(--sabbia-pale);
+  background: var(--primary-pale);
   color: var(--nero);
 }
 
@@ -2188,13 +2199,13 @@ h2 {
 
 /* Record selezionato dall'archivio */
 .ranking-table tr.selected-record {
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.12) 0%, rgba(212, 200, 171, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
   border-left: 4px solid var(--primary);
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ranking-table tr.selected-record:hover {
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.15) 0%, rgba(212, 200, 171, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
 
 .selected-badge {
@@ -2221,7 +2232,7 @@ h2 {
   font-weight: 600;
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent-warm) 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(212, 200, 171, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recommendation-icon {
@@ -2249,7 +2260,7 @@ h2 {
 
 .analyzed-product-content {
   padding: 1rem;
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.02) 0%, rgba(255, 255, 255, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.98) 100%);
 }
 
 .analyzed-product-name {
@@ -2318,7 +2329,7 @@ h2 {
 }
 
 .top-suppliers-table tr:hover {
-  background: rgba(212, 200, 171, 0.02);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .supplier-rank {
@@ -2408,7 +2419,7 @@ h2 {
 }
 
 .kpi-pro-card:hover {
-  box-shadow: 0 4px 12px rgba(212, 200, 171,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
@@ -2431,7 +2442,7 @@ h2 {
 /* Indice Grafici */
 .chart-index {
   background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
-  border: 1px solid rgba(212, 200, 171,0.12);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -2639,7 +2650,7 @@ h2 {
 }
 
 .stats-chart-pill {
-  background: linear-gradient(135deg, rgba(212, 200, 171, 0.08) 0%, rgba(255,255,255,0.98) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255,255,255,0.98) 100%);
   border: 1px solid var(--border);
   border-left: 4px solid var(--primary);
   border-radius: 10px;
@@ -2652,7 +2663,7 @@ h2 {
 }
 
 .stats-chart-pill:hover {
-  box-shadow: 0 6px 20px rgba(212, 200, 171, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   border-left-width: 5px;
   transform: translateY(-3px);
 }
@@ -2755,7 +2766,7 @@ h2 {
 
 .suggestion-header {
   padding: 1.2rem 1.5rem;
-  background: linear-gradient(135deg, var(--sabbia-light) 0%, var(--sabbia-pale) 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-pale) 100%);
   border-bottom: 2px solid var(--primary);
   display: flex;
   flex-direction: column;
@@ -2780,7 +2791,7 @@ h2 {
 }
 
 .suggestion-item:hover {
-  background: var(--sabbia-pale);
+  background: var(--primary-pale);
 }
 
 .suggestion-name {
@@ -2803,7 +2814,7 @@ h2 {
 }
 
 .suggestion-use-btn:hover {
-  background: var(--sabbia-dark);
+  background: var(--primary-dark);
   transform: scale(1.05);
 }
 
@@ -2829,7 +2840,7 @@ h2 {
 }
 
 .suggestion-continue-btn:hover {
-  background: var(--sabbia-dark);
+  background: var(--primary-dark);
   transform: scale(1.02);
 }
 
@@ -2953,7 +2964,7 @@ input.filter-search {
 }
 
 .suppliers-products-table tbody tr:hover {
-  background: rgba(212, 200, 171, 0.08);
+  background: rgba(0, 0, 0, 0.1);
 }
   background-position: right 10px center !important;
   background-size: 14px !important;
@@ -3030,8 +3041,8 @@ input.filter-search::placeholder {
 }
 
 .action-btn-acquista:hover {
-  background: rgba(212, 200, 171, 0.2);
-  border-color: var(--sabbia-dark);
+  background: rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-dark);
 }
 
 .action-btn-consuma {
@@ -3093,3 +3104,5 @@ table td:nth-child(9) {
   min-width: 180px;
   max-width: 280px;
 }
+
+

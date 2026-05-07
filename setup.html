@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurazione Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+      background: #fafafa; 
+      color: #18181b; 
+      height: 100vh; 
+      overflow: hidden; 
+      -webkit-font-smoothing: antialiased; 
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* LAYOUT PRINCIPALE */
+    .setup-layout { 
+      display: grid; 
+      grid-template-columns: 260px 1fr 440px; 
+      height: 100vh; 
+      gap: 0; 
+    }
+    
+    /* SIDEBAR SINISTRA */
+    .sidebar { 
+      background: #ffffff; 
+      border-right: 1px solid #e4e4e7; 
+      padding: 2rem 1.25rem; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    .sidebar-logo { 
+      font-size: 1rem; 
+      font-weight: 700; 
+      color: #18181b; 
+      margin-bottom: 0.375rem; 
+      letter-spacing: -0.01em;
+    }
+    .sidebar-tagline { 
+      font-size: 0.688rem; 
+      color: #71717a; 
+      margin-bottom: 2.5rem; 
+      line-height: 1.4; 
+    }
+    .sidebar-steps { flex: 1; }
+    .step { 
+      display: flex; 
+      align-items: flex-start; 
+      gap: 0.625rem; 
+      margin-bottom: 1.25rem; 
+      padding: 0.5rem; 
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .step:hover {
+      background: #fafafa;
+    }
+    .step-number { 
+      width: 20px; 
+      height: 20px; 
+      border-radius: 5px; 
+      background: #f4f4f5; 
+      color: #a1a1aa; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 0.688rem; 
+      font-weight: 600; 
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .step.active .step-number { 
+      background: #18181b; 
+      color: #ffffff; 
+    }
+    .step-content h4 { 
+      font-size: 0.75rem; 
+      font-weight: 600; 
+      color: #18181b; 
+      margin-bottom: 0.125rem; 
+    }
+    .step-content p { 
+      font-size: 0.688rem; 
+      color: #a1a1aa; 
+      line-height: 1.3; 
+    }
+    .sidebar-footer { 
+      padding-top: 1.25rem; 
+      border-top: 1px solid #f4f4f5; 
+      font-size: 0.688rem; 
+      color: #a1a1aa; 
+    }
+    
+    /* CONFIG PANEL CENTRO */
+    .config-panel { 
+      padding: 2.5rem 2rem; 
+      overflow-y: auto; 
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .config-header { }
+    .config-header h1 { 
+      font-size: 1.75rem; 
+      font-weight: 700; 
+      color: #18181b; 
+      margin-bottom: 0.375rem; 
+      letter-spacing: -0.025em; 
+    }
+    .config-header p { 
+      font-size: 0.875rem; 
+      color: #71717a; 
+      line-height: 1.5; 
+    }
+    
+    .config-section { 
+      scroll-margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    .config-section.highlight {
+      animation: highlightSection 1.5s ease;
+    }
+    @keyframes highlightSection {
+      0% { 
+        box-shadow: 0 0 0 0 rgba(24, 24, 27, 0); 
+      }
+      50% { 
+        box-shadow: 0 0 0 4px rgba(24, 24, 27, 0.08); 
+        transform: translateX(4px);
+      }
+      100% { 
+        box-shadow: 0 0 0 0 rgba(24, 24, 27, 0); 
+        transform: translateX(0);
+      }
+    }
+    
+    .section-label { 
+      font-size: 0.688rem; 
+      font-weight: 600; 
+      color: #18181b; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em; 
+      margin-bottom: 0.875rem; 
+    }
+    
+    /* INPUT FIELD */
+    .input-field { 
+      width: 100%; 
+      max-width: 520px; 
+      padding: 0.688rem 0.875rem; 
+      border: 1px solid #e4e4e7; 
+      border-radius: 7px; 
+      font-size: 0.875rem; 
+      font-family: inherit; 
+      color: #18181b; 
+      background: #ffffff; 
+      transition: all 0.15s ease; 
+    }
+    .input-field:hover { 
+      border-color: #d4d4d8; 
+    }
+    .input-field:focus { 
+      outline: none; 
+      border-color: #18181b; 
+      box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.05); 
+    }
+    .input-hint { 
+      font-size: 0.75rem; 
+      color: #a1a1aa; 
+      margin-top: 0.5rem; 
+    }
+    
+    /* CAROUSEL TEMI */
+    .themes-carousel-wrapper {
+      max-width: 640px;
+      position: relative;
+    }
+    .themes-carousel {
+      display: flex;
+      gap: 0.75rem;
+      overflow: hidden;
+      scroll-behavior: smooth;
+    }
+    .theme-option {
+      min-width: calc(25% - 0.5625rem);
+      padding: 0.875rem;
+      border: 1.5px solid #e4e4e7;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+    .theme-option:hover {
+      border-color: #a1a1aa;
+      transform: translateY(-1px);
+    }
+    .theme-option.active {
+      border-color: #18181b;
+      background: #fafafa;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .theme-number {
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: #a1a1aa;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .theme-option.active .theme-number {
+      color: #18181b;
+    }
+    .theme-color-bar {
+      height: 28px;
+      border-radius: 5px;
+      margin-bottom: 0.625rem;
+      display: flex;
+      overflow: hidden;
+    }
+    .theme-color {
+      flex: 1;
+    }
+    .theme-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #18181b;
+      margin-bottom: 0.188rem;
+      line-height: 1.2;
+    }
+    .theme-description {
+      font-size: 0.688rem;
+      color: #a1a1aa;
+      line-height: 1.2;
+    }
+    .theme-category {
+      display: inline-block;
+      font-size: 0.625rem;
+      padding: 0.125rem 0.375rem;
+      background: #f4f4f5;
+      color: #71717a;
+      border-radius: 3px;
+      margin-bottom: 0.375rem;
+      font-weight: 500;
+    }
+    
+    /* FRECCE CAROUSEL */
+    .carousel-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.875rem;
+      justify-content: flex-start;
+    }
+    .carousel-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #e4e4e7;
+      background: #ffffff;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      font-size: 0.875rem;
+      color: #71717a;
+    }
+    .carousel-btn:hover {
+      border-color: #18181b;
+      background: #fafafa;
+      color: #18181b;
+    }
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .carousel-btn:disabled:hover {
+      border-color: #e4e4e7;
+      background: #ffffff;
+    }
+    
+    /* LOGO UPLOAD */
+    .logo-upload {
+      max-width: 520px;
+      border: 1.5px dashed #e4e4e7;
+      border-radius: 9px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+    .logo-upload:hover {
+      border-color: #a1a1aa;
+      background: #fafafa;
+    }
+    .logo-upload.has-logo {
+      border-style: solid;
+      border-color: #18181b;
+    }
+    .logo-preview-img {
+      max-width: 72px;
+      max-height: 72px;
+      margin: 0 auto 0.875rem;
+      display: none;
+      border-radius: 7px;
+    }
+    .logo-preview-img.active {
+      display: block;
+    }
+    .logo-upload-text {
+      font-size: 0.813rem;
+      color: #71717a;
+    }
+    .logo-upload-text strong {
+      color: #18181b;
+      font-weight: 600;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    
+    /* BOTTONE LAUNCH */
+    .btn-launch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.813rem 1.75rem;
+      background: #18181b;
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+    .btn-launch:hover {
+      background: #27272a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .btn-launch:active {
+      transform: translateY(0);
+    }
+    
+    /* PREVIEW PANEL DESTRA */
+    .preview-panel {
+      background: #ffffff;
+      border-left: 1px solid #e4e4e7;
+      padding: 1.75rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .preview-label {
+      font-size: 0.688rem;
+      font-weight: 600;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.875rem;
+    }
+    #dashboardPreview {
+      flex: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e4e4e7;
+      background: var(--bg, #fafafa);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* PREVIEW COMPONENTS */
+    .preview-topbar {
+      padding: 0.75rem 1rem;
+      background: var(--card, #ffffff);
+      border-bottom: 1px solid var(--border, #e4e4e7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .preview-logo-text {
+      font-size: 0.813rem;
+      font-weight: 700;
+      color: var(--text, #18181b);
+    }
+    .preview-nav {
+      display: flex;
+      gap: 0.375rem;
+    }
+    .preview-nav-item {
+      padding: 0.313rem 0.625rem;
+      font-size: 0.688rem;
+      font-weight: 500;
+      color: var(--text-light, #71717a);
+      background: transparent;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .preview-nav-item.active {
+      background: var(--primary-pale, #e4e4e7);
+      color: var(--primary, #18181b);
+    }
+    .preview-content {
+      padding: 1rem;
+      background: var(--bg, #fafafa);
+      flex: 1;
+      overflow-y: auto;
+    }
+    .preview-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.625rem;
+      margin-bottom: 0.875rem;
+    }
+    .preview-stat-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e4e4e7);
+      border-radius: 7px;
+      padding: 0.813rem;
+    }
+    .preview-stat-label {
+      font-size: 0.625rem;
+      color: var(--text-light, #71717a);
+      margin-bottom: 0.313rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+    .preview-stat-value {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text, #18181b);
+    }
+    .preview-chart-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e4e4e7);
+      border-radius: 7px;
+      padding: 0.875rem;
+      margin-bottom: 0.875rem;
+    }
+    .preview-chart-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text, #18181b);
+      margin-bottom: 0.625rem;
+    }
+    .preview-chart {
+      height: 100px;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.313rem;
+    }
+    .preview-chart-bar {
+      flex: 1;
+      background: var(--primary, #18181b);
+      border-radius: 3px 3px 0 0;
+      opacity: 0.85;
+      transition: all 0.3s ease;
+    }
+    .preview-table {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e4e4e7);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    .preview-table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 0.625rem 0.875rem;
+      background: var(--card-subtle, #fafafa);
+      border-bottom: 1px solid var(--border, #e4e4e7);
+    }
+    .preview-table-header-cell {
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--text-light, #71717a);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .preview-table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 0.625rem 0.875rem;
+      border-bottom: 1px solid var(--border-light, #f4f4f5);
+      font-size: 0.688rem;
+      color: var(--text, #18181b);
+    }
+    .preview-table-row:last-child {
+      border-bottom: none;
+    }
+    .preview-status {
+      display: inline-block;
+      padding: 0.125rem 0.438rem;
+      border-radius: 4px;
+      font-size: 0.625rem;
+      font-weight: 500;
+    }
+    .preview-status.success {
+      background: var(--success, #10b981);
+      color: white;
+      opacity: 0.9;
+    }
+    .preview-status.warning {
+      background: var(--warning, #f59e0b);
+      color: white;
+      opacity: 0.9;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 1400px) {
+      .setup-layout {
+        grid-template-columns: 240px 1fr 380px;
+      }
+      .config-panel {
+        padding: 2rem 1.5rem;
+      }
+    }
+    @media (max-width: 1024px) {
+      .setup-layout {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+      }
+      .sidebar, .preview-panel {
+        display: none;
+      }
+      .theme-option {
+        min-width: calc(50% - 0.375rem);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="setup-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Gestionale Demo</div>
+    <div class="sidebar-tagline">Configura la tua esperienza in pochi passaggi</div>
+    <div class="sidebar-steps">
+      <div class="step active" data-target="projectNameSection">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Nome progetto</h4>
+          <p>Personalizza il nome</p>
+        </div>
+      </div>
+      <div class="step" data-target="themeSection">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Tema visivo</h4>
+          <p>Scegli lo stile</p>
+        </div>
+      </div>
+      <div class="step" data-target="logoSection">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Logo aziendale</h4>
+          <p>Carica il logo</p>
+        </div>
+      </div>
+      <div class="step" data-target="launchSection">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Avvia demo</h4>
+          <p>Inizia subito</p>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-footer">© 2026 · Demo</div>
+  </aside>
+  
+  <!-- CONFIG PANEL -->
+  <main class="config-panel">
+    <div class="config-header">
+      <h1>Configura la demo</h1>
+      <p>Personalizza nome, tema e logo per il tuo gestionale</p>
+    </div>
+    
+    <div class="config-section" id="projectNameSection">
+      <div class="section-label">Nome Progetto</div>
+      <input type="text" id="projectNameInput" class="input-field" placeholder="es. Ristorante Bella Vista" autocomplete="off">
+      <div class="input-hint">Questo nome apparirà in tutta l'applicazione</div>
+    </div>
+    
+    <div class="config-section" id="themeSection">
+      <div class="section-label">Tema Visivo</div>
+      <div class="themes-carousel-wrapper">
+        <div class="themes-carousel" id="themesCarousel"></div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="prevBtn">←</button>
+          <button class="carousel-btn" id="nextBtn">→</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="config-section" id="logoSection">
+      <div class="section-label">Logo Aziendale (Opzionale)</div>
+      <div class="logo-upload" id="logoUploadArea">
+        <img id="logoPreviewImg" class="logo-preview-img" alt="Logo preview">
+        <div class="logo-upload-text">
+          <strong>Carica il tuo logo</strong><br>
+          <span style="font-size: 0.688rem;">PNG o JPG, max 2MB</span>
+        </div>
+      </div>
+      <input type="file" id="logoInput" accept="image/*">
+    </div>
+    
+    <div class="config-section" id="launchSection">
+      <button class="btn-launch" id="launchBtn">Avvia Demo →</button>
+    </div>
+  </main>
+  
+  <!-- PREVIEW PANEL -->
+  <aside class="preview-panel">
+    <div class="preview-label">Anteprima Live</div>
+    <div id="dashboardPreview">
+      <div class="preview-topbar">
+        <div class="preview-logo-text" id="previewProjectName">Gestionale Demo</div>
+        <div class="preview-nav">
+          <button class="preview-nav-item active">Home</button>
+          <button class="preview-nav-item">Ordini</button>
+          <button class="preview-nav-item">Stats</button>
+        </div>
+      </div>
+      <div class="preview-content">
+        <div class="preview-cards">
+          <div class="preview-stat-card">
+            <div class="preview-stat-label">Totale</div>
+            <div class="preview-stat-value">€12.4k</div>
+          </div>
+          <div class="preview-stat-card">
+            <div class="preview-stat-label">Ordini</div>
+            <div class="preview-stat-value">142</div>
+          </div>
+          <div class="preview-stat-card">
+            <div class="preview-stat-label">Prodotti</div>
+            <div class="preview-stat-value">68</div>
+          </div>
+        </div>
+        <div class="preview-chart-card">
+          <div class="preview-chart-title">Andamento settimana</div>
+          <div class="preview-chart" id="previewChart">
+            <div class="preview-chart-bar" style="height: 60%;"></div>
+            <div class="preview-chart-bar" style="height: 80%;"></div>
+            <div class="preview-chart-bar" style="height: 45%;"></div>
+            <div class="preview-chart-bar" style="height: 90%;"></div>
+            <div class="preview-chart-bar" style="height: 70%;"></div>
+            <div class="preview-chart-bar" style="height: 95%;"></div>
+            <div class="preview-chart-bar" style="height: 85%;"></div>
+          </div>
+        </div>
+        <div class="preview-table">
+          <div class="preview-table-header">
+            <div class="preview-table-header-cell">Prodotto</div>
+            <div class="preview-table-header-cell">Quantità</div>
+            <div class="preview-table-header-cell">Stato</div>
+          </div>
+          <div class="preview-table-row">
+            <div>Farina 00</div>
+            <div>25 kg</div>
+            <div><span class="preview-status success">OK</span></div>
+          </div>
+          <div class="preview-table-row">
+            <div>Olio EVO</div>
+            <div>12 L</div>
+            <div><span class="preview-status warning">Basso</span></div>
+          </div>
+          <div class="preview-table-row">
+            <div>Pomodoro</div>
+            <div>30 kg</div>
+            <div><span class="preview-status success">OK</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script src="js/theme-manager.js"></script>
+<script>
+let selectedTheme = "theme-01";
+let uploadedLogo = null;
+let currentCarouselIndex = 0;
+const themesPerPage = 4;
+
+// Popola carousel temi
+function populateThemes() {
+  const carousel = document.getElementById("themesCarousel");
+  const themes = themeManager.getAvailableThemes();
+  
+  themes.forEach(theme => {
+    const card = document.createElement("div");
+    card.className = "theme-option";
+    if (theme.id === selectedTheme) card.classList.add("active");
+    card.dataset.theme = theme.id;
+    
+    card.innerHTML = `
+      <div class="theme-number">THEME ${theme.number}</div>
+      <div class="theme-color-bar">
+        <div class="theme-color" style="background: ${theme.preview.bg}"></div>
+        <div class="theme-color" style="background: ${theme.preview.card}"></div>
+        <div class="theme-color" style="background: ${theme.preview.primary}"></div>
+        <div class="theme-color" style="background: ${theme.preview.accent}"></div>
+      </div>
+      <div class="theme-name">${theme.name}</div>
+      <div class="theme-description">${theme.description}</div>
+    `;
+    
+    card.addEventListener("click", () => selectTheme(theme.id));
+    carousel.appendChild(card);
+  });
+  
+  updateCarouselButtons();
+}
+
+// Seleziona tema
+function selectTheme(themeId) {
+  selectedTheme = themeId;
+  
+  // Aggiorna UI
+  document.querySelectorAll(".theme-option").forEach(card => {
+    card.classList.toggle("active", card.dataset.theme === themeId);
+  });
+  
+  // Applica tema SOLO alla preview
+  const preview = document.getElementById("dashboardPreview");
+  preview.setAttribute("data-theme", themeId);
+  
+  const theme = themeManager.getAvailableThemes().find(t => t.id === themeId);
+  if (theme) {
+    const root = preview.style;
+    root.setProperty("--bg", theme.preview.bg);
+    root.setProperty("--card", theme.preview.card);
+    root.setProperty("--primary", theme.preview.primary);
+    root.setProperty("--text", theme.preview.text);
+    root.setProperty("--accent", theme.preview.accent);
+  }
+}
+
+// Carousel navigation
+function updateCarouselButtons() {
+  const carousel = document.getElementById("themesCarousel");
+  const totalThemes = themeManager.getAvailableThemes().length;
+  const maxIndex = Math.max(0, totalThemes - themesPerPage);
+  
+  document.getElementById("prevBtn").disabled = currentCarouselIndex === 0;
+  document.getElementById("nextBtn").disabled = currentCarouselIndex >= maxIndex;
+}
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentCarouselIndex > 0) {
+    currentCarouselIndex--;
+    const carousel = document.getElementById("themesCarousel");
+    const cardWidth = carousel.querySelector(".theme-option").offsetWidth;
+    const gap = 12; // 0.75rem
+    carousel.scrollLeft = currentCarouselIndex * (cardWidth + gap);
+    updateCarouselButtons();
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const totalThemes = themeManager.getAvailableThemes().length;
+  const maxIndex = totalThemes - themesPerPage;
+  if (currentCarouselIndex < maxIndex) {
+    currentCarouselIndex++;
+    const carousel = document.getElementById("themesCarousel");
+    const cardWidth = carousel.querySelector(".theme-option").offsetWidth;
+    const gap = 12;
+    carousel.scrollLeft = currentCarouselIndex * (cardWidth + gap);
+    updateCarouselButtons();
+  }
+});
+
+// Nome progetto - aggiorna preview live
+document.getElementById("projectNameInput").addEventListener("input", (e) => {
+  const name = e.target.value || "Gestionale Demo";
+  document.getElementById("previewProjectName").textContent = name;
+});
+
+// Logo upload
+const logoInput = document.getElementById("logoInput");
+const logoUploadArea = document.getElementById("logoUploadArea");
+const logoPreviewImg = document.getElementById("logoPreviewImg");
+
+logoUploadArea.addEventListener("click", () => logoInput.click());
+
+logoInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Il file è troppo grande. Massimo 2MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedLogo = e.target.result;
+      logoPreviewImg.src = uploadedLogo;
+      logoPreviewImg.classList.add("active");
+      logoUploadArea.classList.add("has-logo");
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Step cliccabili con smooth scroll
+document.querySelectorAll(".step").forEach(step => {
+  step.addEventListener("click", () => {
+    const targetId = step.dataset.target;
+    const targetSection = document.getElementById(targetId);
+    
+    if (targetSection) {
+      // Rimuovi active da tutti gli step
+      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+      // Aggiungi active allo step cliccato
+      step.classList.add("active");
+      
+      // Smooth scroll
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      
+      // Effetto highlight
+      targetSection.classList.add("highlight");
+      setTimeout(() => {
+        targetSection.classList.remove("highlight");
+      }, 1500);
+    }
+  });
+});
+
+// Launch button
+document.getElementById("launchBtn").addEventListener("click", () => {
+  const projectName = document.getElementById("projectNameInput").value.trim() || "Gestionale Demo";
+  themeManager.saveConfig({
+    projectName,
+    theme: selectedTheme,
+    logo: uploadedLogo,
+    configured: true
+  });
+  window.location.href = "login.html";
+});
+
+// Inizializza
+populateThemes();
+
+// Carica config esistente se presente
+const config = themeManager.getConfig();
+if (config.projectName !== "Gestionale Demo") {
+  document.getElementById("projectNameInput").value = config.projectName;
+  document.getElementById("previewProjectName").textContent = config.projectName;
+}
+if (config.theme) {
+  selectTheme(config.theme);
+}
+if (config.logo) {
+  uploadedLogo = config.logo;
+  logoPreviewImg.src = uploadedLogo;
+  logoPreviewImg.classList.add("active");
+  logoUploadArea.classList.add("has-logo");
+}
+</script>
+</body>
+</html>

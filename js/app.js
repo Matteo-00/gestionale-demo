@@ -253,7 +253,7 @@ if (searchProduct) {
 function updateSelectedItem(items, index) {
   items.forEach((item, i) => {
     if (i === index) {
-      item.style.backgroundColor = 'rgba(212, 200, 171, 0.25)';
+      item.style.backgroundColor = 'rgba(59, 130, 246, 0.2)';
       item.style.fontWeight = '600';
       item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     } else {
@@ -667,7 +667,7 @@ function renderArchive(){
         <td>${starsDisplay}</td>
         <td>${x.description || ''}</td>
         <td style="white-space:nowrap;">
-          <button class="repurchase-btn" data-id="${x.id}" style="padding:0.35rem 0.7rem;font-size:0.75rem;background:#D4C8AB;color:white;border:none;border-radius:4px;cursor:pointer;margin-right:0.3rem;">Acquista</button>
+          <button class="repurchase-btn" data-id="${x.id}" style="padding:0.35rem 0.7rem;font-size:0.75rem;background:#3b82f6;color:white;border:none;border-radius:4px;cursor:pointer;margin-right:0.3rem;">Acquista</button>
           <button class="consume-btn" data-id="${x.id}" style="padding:0.35rem 0.7rem;font-size:0.75rem;background:#f59e0b;color:white;border:none;border-radius:4px;cursor:pointer;margin-right:0.3rem;">Consuma</button>
           <button class="show-all-actions-btn" data-id="${x.id}" data-product="${x.product}" style="padding:0.35rem 0.7rem;font-size:0.75rem;background:#6b7280;color:white;border:none;border-radius:4px;cursor:pointer;">Mostra tutte</button>
         </td>
@@ -1099,11 +1099,11 @@ function renderSupplierPeriodChart() {
       datasets: [{
         label: 'Spesa (€)',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.2)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -1233,11 +1233,11 @@ function renderProductPeriodChart() {
       datasets: [{
         label: 'Spesa (€)',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.2)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -1312,15 +1312,15 @@ function renderMonthlyTrendStatsChart() {
       datasets: [{
         label: 'Spesa (€)',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.25)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: '#B8A88A',
+        pointHoverBackgroundColor: '#60a5fa',
         tension: 0.4,
         fill: true
       }]
@@ -1447,15 +1447,15 @@ function renderSupplierSpendingStatsChart() {
       datasets: [{
         label: 'Spesa (€)',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.25)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: '#B8A88A',
+        pointHoverBackgroundColor: '#60a5fa',
         tension: 0.4,
         fill: true
       }]
@@ -1582,15 +1582,15 @@ function renderTopProductsStatsChart() {
       datasets: [{
         label: 'Quantità',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.25)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: '#B8A88A',
+        pointHoverBackgroundColor: '#60a5fa',
         tension: 0.4,
         fill: true
       }]
@@ -1713,15 +1713,15 @@ function renderOrderFrequencyStatsChart() {
       datasets: [{
         label: 'Ordini',
         data: values,
-        backgroundColor: 'rgba(212, 200, 171, 0.25)',
-        borderColor: '#D4C8AB',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: '#3b82f6',
         borderWidth: 2.5,
-        pointBackgroundColor: '#D4C8AB',
-        pointBorderColor: '#C4B89B',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#2563eb',
         pointBorderWidth: 1.5,
         pointRadius: 4,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: '#B8A88A',
+        pointHoverBackgroundColor: '#60a5fa',
         tension: 0.4,
         fill: true
       }]
@@ -2936,3 +2936,5 @@ saveSupplierDetails.onclick = async () => {
 closeSupplierDetailsDialog.onclick = () => {
   supplierDetailsDialog.close();
 };
+
+

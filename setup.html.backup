@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Personalizza la tua Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Temi CSS -->
+  <link rel="stylesheet" href="css/themes.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .setup-container {
+      max-width: 1200px;
+      width: 100%;
+      background: var(--card);
+      border-radius: 24px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .setup-left {
+      padding: 3rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .setup-right {
+      padding: 3rem;
+      background: var(--card-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .setup-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .setup-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .setup-header p {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-pale);
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.813rem;
+      color: var(--text-light);
+    }
+
+    /* Selezione Temi */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .theme-card {
+      padding: 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--bg);
+    }
+
+    .theme-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-card.active {
+      border-color: var(--primary);
+      background: var(--primary-pale);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-preview {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      height: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .theme-preview-color {
+      flex: 1;
+    }
+
+    .theme-card h3 {
+      font-size: 0.938rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .theme-card p {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+
+    /* Upload Logo */
+    .logo-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--bg);
+    }
+
+    .logo-upload-area:hover {
+      border-color: var(--primary);
+      background: var(--primary-pale);
+    }
+
+    .logo-upload-area.has-logo {
+      border-style: solid;
+      border-color: var(--primary);
+    }
+
+    .logo-preview {
+      max-width: 120px;
+      max-height: 120px;
+      margin: 0 auto 1rem;
+      display: none;
+    }
+
+    .logo-preview.active {
+      display: block;
+    }
+
+    .logo-upload-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+
+    .logo-upload-text {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Pulsante Principale */
+    .btn-primary {
+      width: 100%;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      background: var(--primary);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Preview Dashboard */
+    .preview-container {
+      width: 100%;
+      max-width: 500px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .preview-header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .preview-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      object-fit: cover;
+    }
+
+    .preview-title {
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    .preview-content {
+      padding: 1.5rem;
+      background: var(--bg);
+    }
+
+    .preview-card {
+      background: var(--card);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .preview-card h4 {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .preview-card .value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .preview-nav {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+
+    .preview-nav-item {
+      padding: 0.5rem 1rem;
+      background: var(--primary-pale);
+      color: var(--primary);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .setup-container {
+        grid-template-columns: 1fr;
+      }
+
+      .setup-left {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .themes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="setup-container">
+    <!-- Pannello di Configurazione -->
+    <div class="setup-left">
+      <div class="setup-header">
+        <h1>🎨 Personalizza la tua Demo</h1>
+        <p>Configura il nome, il tema e il logo per il tuo gestionale. La preview si aggiornerà in tempo reale.</p>
+      </div>
+
+      <!-- Nome Progetto -->
+      <div class="form-group">
+        <label for="projectName">Nome Progetto/Ristorante</label>
+        <input 
+          type="text" 
+          id="projectName" 
+          placeholder="es. Ristorante Bella Napoli"
+          autocomplete="off"
+        >
+        <small>Questo nome apparirà nella navbar e in tutta l'applicazione</small>
+      </div>
+
+      <!-- Selezione Tema -->
+      <div class="form-group">
+        <label>Scegli un Tema</label>
+        <div class="themes-grid" id="themesGrid">
+          <!-- Popolato dinamicamente -->
+        </div>
+      </div>
+
+      <!-- Upload Logo -->
+      <div class="form-group">
+        <label>Logo (Opzionale)</label>
+        <div class="logo-upload-area" id="logoUploadArea">
+          <img id="logoPreview" class="logo-preview" alt="Logo preview">
+          <div class="logo-upload-icon">📸</div>
+          <div class="logo-upload-text">
+            <strong>Clicca per caricare</strong> o trascina qui il tuo logo<br>
+            <small>PNG, JPG fino a 2MB</small>
+          </div>
+        </div>
+        <input type="file" id="logoInput" accept="image/*">
+      </div>
+
+      <!-- Pulsante Apri Demo -->
+      <button class="btn-primary" id="openDemoBtn">
+        🚀 Apri la Demo
+      </button>
+      
+      <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--text-light);">
+        Hai già configurato? 
+        <a href="login.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+          Vai al Login
+        </a>
+      </p>
+    </div>
+
+    <!-- Preview Live -->
+    <div class="setup-right">
+      <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text);">
+        Preview Live
+      </h2>
+      
+      <div class="preview-container">
+        <div class="preview-header">
+          <div class="preview-logo" id="previewLogo">🍽️</div>
+          <div class="preview-title" id="previewTitle">Gestionale Demo</div>
+        </div>
+        
+        <div class="preview-content">
+          <div class="preview-card">
+            <h4>Spese Totali</h4>
+            <div class="value">€ 12,450</div>
+          </div>
+          <div class="preview-card">
+            <h4>Fornitori Attivi</h4>
+            <div class="value">24</div>
+          </div>
+          <div class="preview-card">
+            <h4>Prodotti</h4>
+            <div class="value">156</div>
+          </div>
+        </div>
+
+        <div class="preview-nav">
+          <div class="preview-nav-item">Home</div>
+          <div class="preview-nav-item">Archivio</div>
+          <div class="preview-nav-item">Statistiche</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-light); text-align: center; max-width: 400px;">
+        Questa è un'anteprima di come apparirà il tuo gestionale con le impostazioni scelte
+      </p>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="js/theme-manager.js"></script>
+  <script>
+    // Inizializzazione
+    let selectedTheme = 'light-minimal';
+    let uploadedLogo = null;
+
+    // Popola temi
+    function populateThemes() {
+      const themesGrid = document.getElementById('themesGrid');
+      const themes = themeManager.getAvailableThemes();
+
+      themes.forEach(theme => {
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        if (theme.id === selectedTheme) card.classList.add('active');
+        card.dataset.theme = theme.id;
+
+        card.innerHTML = `
+          <div class="theme-preview">
+            <div class="theme-preview-color" style="background: ${theme.preview.bg}"></div>
+            <div class="theme-preview-color" style="background: ${theme.preview.card}"></div>
+            <div class="theme-preview-color" style="background: ${theme.preview.primary}"></div>
+            <div class="theme-preview-color" style="background: ${theme.preview.text}"></div>
+          </div>
+          <h3>${theme.name}</h3>
+          <p>${theme.description}</p>
+        `;
+
+        card.addEventListener('click', () => selectTheme(theme.id));
+        themesGrid.appendChild(card);
+      });
+    }
+
+    // Selezione tema
+    function selectTheme(themeId) {
+      selectedTheme = themeId;
+      
+      // Aggiorna UI
+      document.querySelectorAll('.theme-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.theme === themeId);
+      });
+
+      // Applica tema
+      themeManager.applyTheme(themeId);
+    }
+
+    // Aggiorna preview titolo
+    document.getElementById('projectName').addEventListener('input', (e) => {
+      const name = e.target.value || 'Gestionale Demo';
+      document.getElementById('previewTitle').textContent = name;
+    });
+
+    // Upload logo
+    const logoInput = document.getElementById('logoInput');
+    const logoUploadArea = document.getElementById('logoUploadArea');
+    const logoPreview = document.getElementById('logoPreview');
+    const previewLogo = document.getElementById('previewLogo');
+
+    logoUploadArea.addEventListener('click', () => logoInput.click());
+
+    logoUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      logoUploadArea.style.borderColor = 'var(--primary)';
+    });
+
+    logoUploadArea.addEventListener('dragleave', () => {
+      logoUploadArea.style.borderColor = 'var(--border)';
+    });
+
+    logoUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      logoUploadArea.style.borderColor = 'var(--border)';
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        handleLogoUpload(file);
+      }
+    });
+
+    logoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        handleLogoUpload(file);
+      }
+    });
+
+    function handleLogoUpload(file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Il file è troppo grande. Massimo 2MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedLogo = e.target.result;
+        
+        // Mostra preview
+        logoPreview.src = uploadedLogo;
+        logoPreview.classList.add('active');
+        logoUploadArea.classList.add('has-logo');
+        
+        // Aggiorna preview live
+        previewLogo.innerHTML = `<img src="${uploadedLogo}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Apri Demo
+    document.getElementById('openDemoBtn').addEventListener('click', () => {
+      const projectName = document.getElementById('projectName').value.trim() || 'Gestionale Demo';
+
+      // Salva configurazione
+      themeManager.saveConfig({
+        projectName: projectName,
+        theme: selectedTheme,
+        logo: uploadedLogo,
+        configured: true
+      });
+
+      // Reindirizza al login
+      window.location.href = 'login.html';
+    });
+
+    // Inizializza
+    populateThemes();
+
+    // Carica configurazione salvata se esiste
+    const config = themeManager.getConfig();
+    if (config.projectName !== 'Gestionale Demo') {
+      document.getElementById('projectName').value = config.projectName;
+      document.getElementById('previewTitle').textContent = config.projectName;
+    }
+    if (config.theme) {
+      selectTheme(config.theme);
+    }
+    if (config.logo) {
+      uploadedLogo = config.logo;
+      logoPreview.src = uploadedLogo;
+      logoPreview.classList.add('active');
+      logoUploadArea.classList.add('has-logo');
+      previewLogo.innerHTML = `<img src="${uploadedLogo}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`;
+    }
+  </script>
+</body>
+</html>

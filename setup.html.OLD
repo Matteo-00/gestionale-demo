@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurazione Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #fafafa; color: #18181b; height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    .setup-layout { display: grid; grid-template-columns: 280px 1fr 480px; height: 100vh; gap: 0; }
+    .sidebar { background: #ffffff; border-right: 1px solid #e4e4e7; padding: 2rem 1.5rem; display: flex; flex-direction: column; }
+    .sidebar-logo { font-size: 1.125rem; font-weight: 700; color: #18181b; margin-bottom: 0.5rem; }
+    .sidebar-tagline { font-size: 0.75rem; color: #71717a; margin-bottom: 3rem; line-height: 1.5; }
+    .sidebar-steps { flex: 1; }
+    .step { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .step-number { width: 24px; height: 24px; border-radius: 6px; background: #f4f4f5; color: #71717a; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+    .step.active .step-number { background: #18181b; color: #ffffff; }
+    .step-content h4 { font-size: 0.813rem; font-weight: 600; color: #18181b; margin-bottom: 0.25rem; }
+    .step-content p { font-size: 0.75rem; color: #71717a; line-height: 1.4; }
+    .sidebar-footer { padding-top: 1.5rem; border-top: 1px solid #e4e4e7; font-size: 0.75rem; color: #a1a1aa; }
+    .config-panel { padding: 3rem; overflow-y: auto; }
+    .config-header { margin-bottom: 2.5rem; }
+    .config-header h1 { font-size: 1.875rem; font-weight: 700; color: #18181b; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .config-header p { font-size: 0.938rem; color: #71717a; line-height: 1.6; }
+    .config-section { margin-bottom: 2.5rem; }
+    .section-label { font-size: 0.75rem; font-weight: 600; color: #18181b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .input-field { width: 100%; max-width: 480px; padding: 0.75rem 1rem; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 0.938rem; font-family: inherit; color: #18181b; background: #ffffff; transition: all 0.15s ease; }
+    .input-field:hover { border-color: #d4d4d8; }
+    .input-field:focus { outline: none; border-color: #18181b; box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.05); }
+    .input-hint { font-size: 0.813rem; color: #a1a1aa; margin-top: 0.5rem; }
+    .themes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; max-width: 480px; }
+    .theme-option { padding: 1rem; border: 1.5px solid #e4e4e7; border-radius: 10px; cursor: pointer; transition: all 0.15s ease; background: #ffffff; }
+    .theme-option:hover { border-color: #a1a1aa; }
+    .theme-option.active { border-color: #18181b; background: #fafafa; }
+    .theme-color-bar { height: 32px; border-radius: 6px; margin-bottom: 0.75rem; display: flex; overflow: hidden; }
+    .theme-color { flex: 1; }
+    .theme-name { font-size: 0.813rem; font-weight: 600; color: #18181b; margin-bottom: 0.25rem; }
+    .theme-description { font-size: 0.75rem; color: #71717a; line-height: 1.3; }
+    .theme-category { display: inline-block; font-size: 0.688rem; padding: 0.125rem 0.5rem; background: #f4f4f5; color: #71717a; border-radius: 4px; margin-bottom: 0.5rem; font-weight: 500; }
+    .logo-upload { max-width: 480px; border: 1.5px dashed #e4e4e7; border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.15s ease; background: #ffffff; }
+    .logo-upload:hover { border-color: #a1a1aa; background: #fafafa; }
+    .logo-upload.has-logo { border-style: solid; border-color: #18181b; }
+    .logo-preview-img { max-width: 80px; max-height: 80px; margin: 0 auto 1rem; display: none; border-radius: 8px; }
+    .logo-preview-img.active { display: block; }
+    .logo-upload-text { font-size: 0.875rem; color: #71717a; }
+    .logo-upload-text strong { color: #18181b; font-weight: 600; }
+    input[type="file"] { display: none; }
+    .btn-launch { display: inline-flex; align-items: center; justify-content: center; padding: 0.875rem 2rem; background: #18181b; color: #ffffff; border: none; border-radius: 8px; font-size: 0.938rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s ease; margin-top: 2rem; }
+    .btn-launch:hover { background: #27272a; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+    .btn-launch:active { transform: translateY(0); }
+    .preview-panel { background: #ffffff; border-left: 1px solid #e4e4e7; padding: 2rem 1.5rem; display: flex; flex-direction: column; overflow-y: auto; }
+    .preview-label { font-size: 0.75rem; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    #dashboardPreview { flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #e4e4e7; background: var(--bg, #fafafa); transition: all 0.2s ease; }
+    .preview-topbar { padding: 0.875rem 1.25rem; background: var(--card, #ffffff); border-bottom: 1px solid var(--border, #e4e4e7); display: flex; align-items: center; justify-content: space-between; }
+    .preview-logo-text { font-size: 0.875rem; font-weight: 700; color: var(--text, #18181b); }
+    .preview-nav { display: flex; gap: 0.5rem; }
+    .preview-nav-item { padding: 0.375rem 0.75rem; font-size: 0.75rem; font-weight: 500; color: var(--text-light, #71717a); background: transparent; border: none; border-radius: 6px; cursor: pointer; }
+    .preview-nav-item.active { background: var(--primary-pale, #e4e4e7); color: var(--primary, #18181b); }
+    .preview-content { padding: 1.25rem; background: var(--bg, #fafafa); }
+    .preview-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    .preview-stat-card { background: var(--card, #ffffff); border: 1px solid var(--border, #e4e4e7); border-radius: 8px; padding: 1rem; }
+    .preview-stat-label { font-size: 0.688rem; color: var(--text-light, #71717a); margin-bottom: 0.375rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+    .preview-stat-value { font-size: 1.25rem; font-weight: 700; color: var(--text, #18181b); }
+    .preview-chart-card { background: var(--card, #ffffff); border: 1px solid var(--border, #e4e4e7); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+    .preview-chart-title { font-size: 0.813rem; font-weight: 600; color: var(--text, #18181b); margin-bottom: 0.75rem; }
+    .preview-chart { height: 120px; display: flex; align-items: flex-end; gap: 0.375rem; }
+    .preview-chart-bar { flex: 1; background: var(--primary, #18181b); border-radius: 4px 4px 0 0; opacity: 0.8; transition: all 0.2s ease; }
+    .preview-table { background: var(--card, #ffffff); border: 1px solid var(--border, #e4e4e7); border-radius: 8px; overflow: hidden; }
+    .preview-table-header { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 0.75rem 1rem; background: var(--card-subtle, #fafafa); border-bottom: 1px solid var(--border, #e4e4e7); }
+    .preview-table-header-cell { font-size: 0.688rem; font-weight: 600; color: var(--text-light, #71717a); text-transform: uppercase; letter-spacing: 0.05em; }
+    .preview-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border, #e4e4e7); font-size: 0.75rem; color: var(--text, #18181b); }
+    .preview-table-row:last-child { border-bottom: none; }
+    .preview-status { display: inline-block; padding: 0.125rem 0.5rem; border-radius: 4px; font-size: 0.688rem; font-weight: 500; }
+    .preview-status.success { background: var(--success, #10b981); color: white; opacity: 0.9; }
+    .preview-status.warning { background: var(--warning, #f59e0b); color: white; opacity: 0.9; }
+    @media (max-width: 1400px) { .setup-layout { grid-template-columns: 240px 1fr 400px; } .config-panel { padding: 2rem; } }
+    @media (max-width: 1024px) { .setup-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; } .sidebar, .preview-panel { display: none; } .themes-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="setup-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">Gestionale Demo</div>
+    <div class="sidebar-tagline">Configura la tua esperienza personalizzata in pochi passaggi</div>
+    <div class="sidebar-steps">
+      <div class="step active"><div class="step-number">1</div><div class="step-content"><h4>Nome progetto</h4><p>Personalizza il nome del tuo gestionale</p></div></div>
+      <div class="step"><div class="step-number">2</div><div class="step-content"><h4>Tema visivo</h4><p>Scegli lo stile che preferisci</p></div></div>
+      <div class="step"><div class="step-number">3</div><div class="step-content"><h4>Logo aziendale</h4><p>Carica il tuo logo (opzionale)</p></div></div>
+      <div class="step"><div class="step-number">4</div><div class="step-content"><h4>Avvia demo</h4><p>Inizia a esplorare il gestionale</p></div></div>
+    </div>
+    <div class="sidebar-footer">© 2026 · Configurazione Demo</div>
+  </aside>
+  <main class="config-panel">
+    <div class="config-header">
+      <h1>Configura la tua demo</h1>
+      <p>Personalizza nome, tema e logo per adattare il gestionale alla tua identità aziendale</p>
+    </div>
+    <div class="config-section">
+      <div class="section-label">Nome Progetto</div>
+      <input type="text" id="projectNameInput" class="input-field" placeholder="es. Ristorante Bella Vista" autocomplete="off">
+      <div class="input-hint">Questo nome apparirà nella navbar e in tutta l'applicazione</div>
+    </div>
+    <div class="config-section">
+      <div class="section-label">Tema Visivo</div>
+      <div class="themes-grid" id="themesGrid"></div>
+    </div>
+    <div class="config-section">
+      <div class="section-label">Logo Aziendale (Opzionale)</div>
+      <div class="logo-upload" id="logoUploadArea">
+        <img id="logoPreviewImg" class="logo-preview-img" alt="Logo preview">
+        <div class="logo-upload-text"><strong>Carica il tuo logo</strong><br><span style="font-size: 0.75rem;">PNG o JPG, max 2MB</span></div>
+      </div>
+      <input type="file" id="logoInput" accept="image/*">
+    </div>
+    <button class="btn-launch" id="launchBtn">Avvia Demo →</button>
+  </main>
+  <aside class="preview-panel">
+    <div class="preview-label">Anteprima Live</div>
+    <div id="dashboardPreview">
+      <div class="preview-topbar">
+        <div class="preview-logo-text" id="previewProjectName">Gestionale Demo</div>
+        <div class="preview-nav">
+          <button class="preview-nav-item active">Home</button>
+          <button class="preview-nav-item">Ordini</button>
+          <button class="preview-nav-item">Stats</button>
+        </div>
+      </div>
+      <div class="preview-content">
+        <div class="preview-cards">
+          <div class="preview-stat-card"><div class="preview-stat-label">Totale</div><div class="preview-stat-value">€12.4k</div></div>
+          <div class="preview-stat-card"><div class="preview-stat-label">Ordini</div><div class="preview-stat-value">142</div></div>
+          <div class="preview-stat-card"><div class="preview-stat-label">Prodotti</div><div class="preview-stat-value">68</div></div>
+        </div>
+        <div class="preview-chart-card">
+          <div class="preview-chart-title">Andamento settimana</div>
+          <div class="preview-chart" id="previewChart">
+            <div class="preview-chart-bar" style="height: 60%;"></div>
+            <div class="preview-chart-bar" style="height: 80%;"></div>
+            <div class="preview-chart-bar" style="height: 45%;"></div>
+            <div class="preview-chart-bar" style="height: 90%;"></div>
+            <div class="preview-chart-bar" style="height: 70%;"></div>
+            <div class="preview-chart-bar" style="height: 95%;"></div>
+            <div class="preview-chart-bar" style="height: 85%;"></div>
+          </div>
+        </div>
+        <div class="preview-table">
+          <div class="preview-table-header">
+            <div class="preview-table-header-cell">Prodotto</div>
+            <div class="preview-table-header-cell">Quantità</div>
+            <div class="preview-table-header-cell">Stato</div>
+          </div>
+          <div class="preview-table-row"><div>Farina 00</div><div>25 kg</div><div><span class="preview-status success">OK</span></div></div>
+          <div class="preview-table-row"><div>Olio EVO</div><div>12 L</div><div><span class="preview-status warning">Basso</span></div></div>
+          <div class="preview-table-row"><div>Pomodoro</div><div>30 kg</div><div><span class="preview-status success">OK</span></div></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+<script src="js/theme-manager.js"></script>
+<script>
+let selectedTheme = "slate-professional";
+let uploadedLogo = null;
+function populateThemes() {
+  const grid = document.getElementById("themesGrid");
+  const themes = themeManager.getAvailableThemes();
+  themes.forEach(theme => {
+    const card = document.createElement("div");
+    card.className = "theme-option";
+    if (theme.id === selectedTheme) card.classList.add("active");
+    card.dataset.theme = theme.id;
+    card.innerHTML = `<div class="theme-category">${theme.category}</div><div class="theme-color-bar"><div class="theme-color" style="background: ${theme.preview.bg}"></div><div class="theme-color" style="background: ${theme.preview.card}"></div><div class="theme-color" style="background: ${theme.preview.primary}"></div><div class="theme-color" style="background: ${theme.preview.accent}"></div></div><div class="theme-name">${theme.name}</div><div class="theme-description">${theme.description}</div>`;
+    card.addEventListener("click", () => selectTheme(theme.id));
+    grid.appendChild(card);
+  });
+}
+function selectTheme(themeId) {
+  selectedTheme = themeId;
+  document.querySelectorAll(".theme-option").forEach(card => {
+    card.classList.toggle("active", card.dataset.theme === themeId);
+  });
+  const preview = document.getElementById("dashboardPreview");
+  preview.setAttribute("data-theme", themeId);
+  const theme = themeManager.getAvailableThemes().find(t => t.id === themeId);
+  if (theme) {
+    const root = preview.style;
+    root.setProperty("--bg", theme.preview.bg);
+    root.setProperty("--card", theme.preview.card);
+    root.setProperty("--primary", theme.preview.primary);
+    root.setProperty("--text", theme.preview.text);
+    root.setProperty("--accent", theme.preview.accent);
+  }
+}
+document.getElementById("projectNameInput").addEventListener("input", (e) => {
+  const name = e.target.value || "Gestionale Demo";
+  document.getElementById("previewProjectName").textContent = name;
+});
+const logoInput = document.getElementById("logoInput");
+const logoUploadArea = document.getElementById("logoUploadArea");
+const logoPreviewImg = document.getElementById("logoPreviewImg");
+logoUploadArea.addEventListener("click", () => logoInput.click());
+logoInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 2 * 1024 * 1024) { alert("Il file è troppo grande. Massimo 2MB."); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedLogo = e.target.result;
+      logoPreviewImg.src = uploadedLogo;
+      logoPreviewImg.classList.add("active");
+      logoUploadArea.classList.add("has-logo");
+    };
+    reader.readAsDataURL(file);
+  }
+});
+document.getElementById("launchBtn").addEventListener("click", () => {
+  const projectName = document.getElementById("projectNameInput").value.trim() || "Gestionale Demo";
+  themeManager.saveConfig({ projectName, theme: selectedTheme, logo: uploadedLogo, configured: true });
+  window.location.href = "login.html";
+});
+populateThemes();
+const config = themeManager.getConfig();
+if (config.projectName !== "Gestionale Demo") {
+  document.getElementById("projectNameInput").value = config.projectName;
+  document.getElementById("previewProjectName").textContent = config.projectName;
+}
+if (config.theme) selectTheme(config.theme);
+if (config.logo) {
+  uploadedLogo = config.logo;
+  logoPreviewImg.src = uploadedLogo;
+  logoPreviewImg.classList.add("active");
+  logoUploadArea.classList.add("has-logo");
+}
+</script>
+</body>
+</html>
