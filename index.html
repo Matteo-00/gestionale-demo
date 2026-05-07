@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestionale La Contessa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+  <meta name="theme-color" content="#D4C8AB">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Protezione accesso: redirect a login se non autenticato -->
+  <script>
+    // Verifica autenticazione
+    if (sessionStorage.getItem('isLoggedIn') !== 'true' || !sessionStorage.getItem('accessToken')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-responsive.css">
+
+  <!-- Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- Logo Sidebar -->
+<aside class="logo-sidebar">
+  <div class="logo-container">
+    <img src="assets/IMG_5695.jpeg" alt="Logo La Contessa" class="sidebar-logo" />
+    <div class="logo-title">La Contessa</div>
+    <div class="logo-subtitle">Ristorante</div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+    <span class="gestionale-deco">Gestionale Magazzino</span>
+  </div>
+  <nav>
+    <div class="nav-tabs" role="tablist" aria-label="Sezioni">
+      <button data-page="new" class="active" role="tab" aria-selected="true">Home</button>
+      <button data-page="archive" role="tab">Archivio</button>
+      <button data-page="suppliers" role="tab">Fornitori/Prodotti</button>
+      <button data-page="stats" role="tab">Statistiche</button>
+    </div>
+  </nav>
+  <button id="logoutBtn" class="logout-btn" title="Esci">
+    <span class="logout-text">Esci</span>
+  </button>
+</header>
+
+<main>
+
+<!-- NUOVO ACQUISTO -->
+<section id="page-new" class="page active">
+  <div class="card">
+    <div class="new-main-flex wide-forms">
+      <div style="display:flex;flex-direction:column;gap:0.8rem;flex:1 1 32%;min-width:280px;">
+        <!-- PARAGRAFO 1: Ricerca prodotto -->
+        <div class="search-section big-tile wide-tile" style="margin-bottom:0;">
+          <div class="form-header">
+            <span class="form-icon">◉</span>
+            <h2>Cerca Prodotto o Fornitore</h2>
+          </div>
+          <p class="subtitle" style="margin-top:0;">Verifica se è già registrato prima di inserirne uno nuovo</p>
+          <label for="searchProduct">Nome prodotto/fornitore</label>
+          <input id="searchProduct" class="search-bar" type="text" placeholder="Inizia a digitare...">
+          <ul id="searchResults" class="search-results"></ul>
+          <div id="productDetails" class="product-details" style="display:none;"></div>
+        </div>
+
+        <!-- BADGE STATISTICHE SOPRA -->
+        <div class="stats-badges-row">
+          <div class="stat-badge stat-badge-purple">
+            <span class="stat-badge-label">Spese Totali</span>
+            <span class="stat-badge-value" id="totalSpent">€ 0</span>
+          </div>
+          <div class="stat-badge stat-badge-teal">
+            <span class="stat-badge-label">Fornitori Attivi</span>
+            <span class="stat-badge-value" id="activeSuppliers">0</span>
+          </div>
+          <div class="stat-badge stat-badge-amber">
+            <span class="stat-badge-label">Prodotti Registrati</span>
+            <span class="stat-badge-value" id="registeredProducts">0</span>
+          </div>
+        </div>
+
+        <!-- PILLOLA STATISTICHE ANDAMENTO SPESE -->
+        <div class="spending-trends-pill" id="spendingTrendsPill">
+          <div class="pill-header">
+            <div>
+              <span class="trend-icon">📈</span>
+              <h3 class="pill-title">Andamento Spese</h3>
+              <span class="period-total-badge">
+                <span class="period-total-label">Totale:</span>
+                <span class="period-total-value" id="periodTotal">€ 0</span>
+              </span>
+            </div>
+            <select id="trendsPeriod" class="trends-filter">
+              <option value="7">7g</option>
+              <option value="30" selected>30g</option>
+              <option value="90">90g</option>
+              <option value="180">6m</option>
+              <option value="365">1a</option>
+            </select>
+          </div>
+          <div class="trends-chart-wrapper">
+            <canvas id="trendsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARAGRAFO 2: Nuovo prodotto -->
+      <div class="add-section big-tile wide-tile">
+        <div class="form-header">
+          <span class="form-icon">+</span>
+          <h2>Nuovo Prodotto</h2>
+        </div>
+        <p class="subtitle">Registra un nuovo acquisto</p>
+        <div class="grid">
+          <div>
+            <label for="productSelect">Prodotto</label>
+            <input list="productDatalist" id="productSelect" class="fixed-select" placeholder="🔍 Cerca o seleziona..." style="cursor:text;">
+            <datalist id="productDatalist"></datalist>
+            <input id="newProduct" placeholder="Nuovo prodotto" style="margin-top:0.3rem;">
+          </div>
+          <div>
+            <label for="supplierSelect">Fornitore</label>
+            <input list="supplierDatalist" id="supplierSelect" class="fixed-select" placeholder="🔍 Cerca o seleziona..." style="cursor:text;">
+            <datalist id="supplierDatalist"></datalist>
+            <input id="newSupplier" placeholder="Nuovo fornitore" style="margin-top:0.3rem;">
+          </div>
+          <div>
+            <label for="quantity">Quantità</label>
+            <div style="display:flex;gap:0.4rem;">
+              <input type="number" id="quantity" step="0.01" placeholder="0.00" style="flex:1;margin:0;">
+              <select id="unit" style="width:90px;margin:0;">
+                <option value="kg">Kg</option>
+                <option value="litri">Litro/i</option>
+                <option value="pezzi">Pezzo/i</option>
+                <option value="bott">Bott.</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="price" id="priceLabel">Prezzo (€ al kg)</label>
+            <input type="number" id="price" step="0.01" placeholder="0.00">
+          </div>
+          <div>
+            <label for="purchaseDate">Data</label>
+            <input type="date" id="purchaseDate">
+          </div>
+          <div>
+            <label for="description">Note</label>
+            <input id="description" placeholder="Descrizione...">
+          </div>
+          <div>
+            <label for="rating">Qualità prodotto</label>
+            <div id="ratingStars" style="display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;cursor:pointer;">
+              <span class="star" data-value="0.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="1" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="1.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="2" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="2.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="3" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="3.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="4" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="4.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <span class="star" data-value="5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+              <input type="hidden" id="rating" value="0">
+            </div>
+          </div>
+        </div>
+        <button class="primary" id="savePurchase">Salva</button>
+      </div>
+    </div>
+    <!-- PARAGRAFO 3: Scansione Fattura -->
+    <!-- COMMENTATO - Non necessario per ora
+    <div class="ia-tile wide-tile" style="flex:1 1 32%;min-width:280px;">
+      <div class="info-header">
+        <span class="info-icon">◉</span>
+        <span class="info-title">Scansione Fattura</span>
+      </div>
+      <p class="info-desc">Scatta una foto della fattura e l'AI estrarrà automaticamente i dati</p>
+      <button class="ia-btn" id="scanInvoiceBtn">
+        <span class="ia-btn-icon">📷</span> Scansiona
+      </button>
+    </div>
+    -->
+  </div>
+</section>
+
+<!-- ARCHIVIO -->
+<section id="page-archive" class="page">
+  <div class="card">
+    <h2>Archivio Acquisti</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <p class="subtitle" style="margin:0;">Gestisci tutti gli acquisti registrati</p>
+      <button id="clearAllFilters" class="clear-all-filters-btn" title="Azzera tutti i filtri">
+        <span style="margin-right:0.3rem;">✕</span> Azzera filtri
+      </button>
+    </div>
+
+    <!-- FILTRI -->
+    <div class="filters">
+      <div style="display:flex;flex-direction:column;gap:0.3rem;position:relative;">
+        <label for="filterProduct" style="font-size:0.75rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;">Filtro Prodotto</label>
+        <div style="display:flex;gap:0.3rem;align-items:center;">
+          <input list="filterProductDatalist" id="filterProduct" class="fixed-select filter-search" placeholder="Cerca prodotto..." style="cursor:text;flex:1;">
+          <button class="clear-single-filter-btn" data-filter="filterProduct" title="Azzera filtro prodotto">✕</button>
+        </div>
+        <datalist id="filterProductDatalist"></datalist>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;position:relative;">
+        <label for="filterSupplier" style="font-size:0.75rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;">Filtro Fornitore</label>
+        <div style="display:flex;gap:0.3rem;align-items:center;">
+          <input list="filterSupplierDatalist" id="filterSupplier" class="fixed-select filter-search" placeholder="Cerca fornitore..." style="cursor:text;flex:1;">
+          <button class="clear-single-filter-btn" data-filter="filterSupplier" title="Azzera filtro fornitore">✕</button>
+        </div>
+        <datalist id="filterSupplierDatalist"></datalist>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:0.3rem;position:relative;">
+        <label for="filterPriceMode" style="font-size:0.75rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;">Filtro Prezzo</label>
+        <div style="display:flex;gap:0.3rem;align-items:center;">
+          <select id="filterPriceMode" style="flex:1;">
+            <option value="">Prezzo</option>
+            <option value="asc">Crescente</option>
+            <option value="desc">Decrescente</option>
+            <option value="exact">Prezzo esatto</option>
+          </select>
+          <button class="clear-single-filter-btn" data-filter="filterPriceMode" title="Azzera filtro prezzo">✕</button>
+        </div>
+      </div>
+      <input type="number" id="filterPriceExact" class="hidden" placeholder="€ esatto">
+
+      <div style="display:flex;flex-direction:column;gap:0.3rem;position:relative;">
+        <label for="filterDateMode" style="font-size:0.75rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;">Filtro Data</label>
+        <div style="display:flex;gap:0.3rem;align-items:center;">
+          <select id="filterDateMode" style="flex:1;">
+            <option value="">Data</option>
+            <option value="recent">Più recente</option>
+            <option value="old">Meno recente</option>
+            <option value="range">Intervallo</option>
+          </select>
+          <button class="clear-single-filter-btn" data-filter="filterDateMode" title="Azzera filtro data">✕</button>
+        </div>
+      </div>
+      <div id="dateRange" class="hidden">
+        <input type="date" id="dateFrom">
+        <input type="date" id="dateTo">
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>🕐</th>
+          <th>Data</th>
+          <th>Prodotto</th>
+          <th>Fornitore</th>
+          <th>Prezzo Cad.</th>
+          <th>Quantità</th>
+          <th>Unità</th>
+          <th>Qualità</th>
+          <th>Descrizione</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody id="archiveTable"></tbody>
+    </table>
+
+    <div class="pagination">
+      <button id="prevPage">←</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage">→</button>
+    </div>
+
+    <div class="export">
+      <button id="exportExcel">Excel</button>
+      <button id="exportPDF">PDF</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- FORNITORI/PRODOTTI -->
+<section id="page-suppliers" class="page">
+  <div class="card">
+    <div class="section-header">
+      <h2>Fornitori/Prodotti</h2>
+      <p style="color:var(--muted);font-size:0.9rem;">Gestisci fornitori e prodotti registrati</p>
+    </div>
+
+    <div style="display:flex;gap:1.5rem;margin-top:1.5rem;">
+      <!-- TABELLA FORNITORI -->
+      <div style="flex:1;">
+        <h3 style="margin:0 0 0.5rem 0;font-size:1.1rem;color:var(--primary);">Fornitori</h3>
+        <button id="addNewSupplierBtn" class="primary" style="padding:0.5rem 1rem;font-size:0.85rem;margin-bottom:1rem;">➕ Nuovo Fornitore</button>
+        <input id="filterSupplierName" class="filter-search" placeholder="Cerca fornitore..." style="cursor:text;margin-bottom:1rem;width:100%;">
+        <table class="suppliers-products-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th style="width:150px;">Azioni</th>
+            </tr>
+          </thead>
+          <tbody id="suppliersTable"></tbody>
+        </table>
+        <div class="pagination" style="margin-top:1rem;">
+          <button id="prevSupplierPage">←</button>
+          <span id="supplierPageInfo"></span>
+          <button id="nextSupplierPage">→</button>
+        </div>
+      </div>
+
+      <!-- TABELLA PRODOTTI -->
+      <div style="flex:1;">
+        <h3 style="margin:0 0 0.5rem 0;font-size:1.1rem;color:var(--primary);">Prodotti</h3>
+        <button id="addNewProductBtn" class="primary" style="padding:0.5rem 1rem;font-size:0.85rem;margin-bottom:1rem;">➕ Nuovo Prodotto</button>
+        <input id="filterProductName" class="filter-search" placeholder="Cerca prodotto..." style="cursor:text;margin-bottom:1rem;width:100%;">
+        <table class="suppliers-products-table">
+          <thead>
+            <tr>
+              <th>Nome Prodotto</th>
+              <th style="width:100px;">Azioni</th>
+            </tr>
+          </thead>
+          <tbody id="productsTable"></tbody>
+        </table>
+        <div class="pagination" style="margin-top:1rem;">
+          <button id="prevProductPage">←</button>
+          <span id="productPageInfo"></span>
+          <button id="nextProductPage">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATISTICHE -->
+<section id="page-stats" class="page">
+  <div class="card">
+
+    <div class="stats-tabs-wrapper">
+      <div class="stats-tabs">
+        <button id="aiStatsTab" class="stats-tab active" type="button">Analisi con AI</button>
+        <button id="classicStatsTab" class="stats-tab" type="button">Statistiche</button>
+      </div>
+    </div>
+
+    <!-- SEZIONE STATISTICHE CON AI (ora prima e default) -->
+    <div id="aiStatsSection">
+      <h2>Analisi Intelligente Prodotti </h2>
+      <p class="subtitle">L'AI confronta tutti gli acquisti e ti consiglia il migliore</p>
+      <div class="filters">
+        <select id="statsProduct" class="fixed-select">
+          <option value="">Seleziona un prodotto</option>
+        </select>
+        <select id="statsSupplier" class="fixed-select">
+          <option value="">Tutti i fornitori</option>
+        </select>
+      </div>
+      <div class="ai-intro">
+        <p>
+          L'analisi AI valuta tutti gli acquisti del prodotto selezionato e confronta i fornitori considerando:
+          <strong>prezzo unitario</strong>, <strong>qualità</strong>, <strong>rapporto qualità-prezzo</strong>, <strong>affidabilità del fornitore</strong> e <strong>note</strong>.
+          Riceverai una classifica dei migliori acquisti e un riepilogo per scegliere in modo intelligente.
+        </p>
+      </div>
+      <!-- Pulsante Analizza con AI -->
+      <button id="analyzeWithAI" class="ai-analyze-btn" disabled>
+        <span class="ai-icon">✨</span>
+        <span>Analizza con AI</span>
+      </button>
+      <!-- Loading -->
+      <div id="aiLoading" class="ai-loading" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p>L'AI sta analizzando tutti gli acquisti...</p>
+      </div>
+      <!-- Risultati AI -->
+      <div id="aiResults" class="ai-results" style="display:none;"></div>
+    </div>
+
+    <!-- SEZIONE STATISTICHE (ora seconda) -->
+    <div id="classicStatsSection" style="display:none;">
+      <div class="stats-professional-header">
+        <h2>Dashboard Statistiche</h2>
+        <p class="subtitle">Analisi completa e reportistica del magazzino</p>
+      </div>
+      
+      <!-- KPI Cards Professionali -->
+      <div class="stats-kpi-professional">
+        <div class="kpi-pro-card">
+          <div class="kpi-pro-label">Spesa Totale</div>
+          <div class="kpi-pro-value" id="kpiTotalSpent">€ 0</div>
+        </div>
+        <div class="kpi-pro-card">
+          <div class="kpi-pro-label">Fornitori Attivi</div>
+          <div class="kpi-pro-value" id="kpiSuppliers">0</div>
+        </div>
+        <div class="kpi-pro-card">
+          <div class="kpi-pro-label">Prodotti Registrati</div>
+          <div class="kpi-pro-value" id="kpiProducts">0</div>
+        </div>
+        <div class="kpi-pro-card">
+          <div class="kpi-pro-label">Spesa Media</div>
+          <div class="kpi-pro-value" id="kpiAvgPurchase">€ 0</div>
+        </div>
+      </div>
+
+      <!-- Grafici Filtrabili per Periodo (Fornitore e Prodotto) -->
+      <div style="display:flex;gap:1.5rem;margin:2rem 0;">
+        <!-- Grafico Spese Fornitore -->
+        <div class="spending-trends-pill" style="flex:1;">
+          <div class="pill-header">
+            <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+              <h3 class="pill-title" style="margin:0;flex-shrink:0;">Spese Fornitore</h3>
+              <div class="period-total-badge" style="margin:0 auto;">
+                <span class="period-total-label">Totale:</span>
+                <span class="period-total-value" id="supplierPeriodTotal">€ 0</span>
+              </div>
+              <select id="supplierChartPeriod" class="trends-filter" style="flex-shrink:0;">
+                <option value="range">Intervallo</option>
+                <option value="7">Ultimi 7 giorni</option>
+                <option value="30" selected>Ultimi 30 giorni</option>
+                <option value="90">Ultimi 90 giorni</option>
+                <option value="180">Ultimi 180 giorni</option>
+                <option value="365">Ultimi 365 giorni</option>
+              </select>
+            </div>
+          </div>
+          <input list="supplierChartDatalist" id="supplierChartSelect" class="fixed-select" placeholder="🔍 Cerca o seleziona fornitore..." style="width:100%;margin-top:0.6rem;cursor:text;">
+          <datalist id="supplierChartDatalist"></datalist>
+          <div id="supplierDateRange" class="hidden" style="display:none;gap:0.5rem;margin-top:0.6rem;">
+            <input type="date" id="supplierDateFrom" style="flex:1;">
+            <input type="date" id="supplierDateTo" style="flex:1;">
+          </div>
+          <div class="trends-chart-wrapper">
+            <canvas id="supplierPeriodChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Grafico Spese Prodotto -->
+        <div class="spending-trends-pill" style="flex:1;">
+          <div class="pill-header">
+            <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+              <h3 class="pill-title" style="margin:0;flex-shrink:0;">Spese Prodotto</h3>
+              <div class="period-total-badge" style="margin:0 auto;">
+                <span class="period-total-label">Totale:</span>
+                <span class="period-total-value" id="productPeriodTotal">€ 0</span>
+              </div>
+              <select id="productChartPeriod" class="trends-filter" style="flex-shrink:0;">
+                <option value="range">Intervallo</option>
+                <option value="7">Ultimi 7 giorni</option>
+                <option value="30" selected>Ultimi 30 giorni</option>
+                <option value="90">Ultimi 90 giorni</option>
+                <option value="180">Ultimi 180 giorni</option>
+                <option value="365">Ultimi 365 giorni</option>
+              </select>
+            </div>
+          </div>
+          <input list="productChartDatalist" id="productChartSelect" class="fixed-select" placeholder="🔍 Cerca o seleziona prodotto..." style="width:100%;margin-top:0.6rem;cursor:text;">
+          <datalist id="productChartDatalist"></datalist>
+          <div id="productDateRange" class="hidden" style="display:none;gap:0.5rem;margin-top:0.6rem;">
+            <input type="date" id="productDateFrom" style="flex:1;">
+            <input type="date" id="productDateTo" style="flex:1;">
+          </div>
+          <div class="trends-chart-wrapper">
+            <canvas id="productPeriodChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grafici Professionali con stile coerente -->
+      <div class="stats-charts-grid">
+        
+        <!-- Grafico 1: Andamento Spese Mensili -->
+        <div class="stats-chart-pill">
+          <div class="stats-chart-header">
+            <h3 class="stats-chart-title">Andamento Spese Mensili</h3>
+            <p class="stats-chart-subtitle">Analisi temporale delle spese nel tempo</p>
+          </div>
+          <div class="stats-chart-canvas">
+            <canvas id="monthlyTrendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Grafico 2: Spese per Fornitore -->
+        <div class="stats-chart-pill">
+          <div class="stats-chart-header">
+            <h3 class="stats-chart-title">Spese per Fornitore</h3>
+            <p class="stats-chart-subtitle">Distribuzione degli acquisti tra fornitori</p>
+          </div>
+          <div class="stats-chart-canvas">
+            <canvas id="supplierSpendingChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Grafico 3: Top Prodotti -->
+        <div class="stats-chart-pill">
+          <div class="stats-chart-header">
+            <h3 class="stats-chart-title">Prodotti Più Richiesti</h3>
+            <p class="stats-chart-subtitle">Classifica per quantità acquistata</p>
+          </div>
+          <div class="stats-chart-canvas">
+            <canvas id="topProductsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Grafico 4: Frequenza Ordini -->
+        <div class="stats-chart-pill">
+          <div class="stats-chart-header">
+            <h3 class="stats-chart-title">Frequenza Ordini</h3>
+            <p class="stats-chart-subtitle">Numero di ordini per fornitore</p>
+          </div>
+          <div class="stats-chart-canvas">
+            <canvas id="orderFrequencyChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 Gestionale Ristorante La Contessa</p>
+</footer>
+
+<!-- DIALOG DETTAGLI PRODOTTO -->
+<dialog id="productDialog" class="product-dialog">
+  <div id="productDialogContent"></div>
+  <button id="closeProductDialog" class="primary" style="margin-top:1.2rem;">Chiudi</button>
+</dialog>
+
+<!-- DIALOG RIACQUISTO PRODOTTO -->
+<dialog id="repurchaseDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Riacquista Prodotto</h2>
+  <div id="repurchaseContent" style="margin:1rem 0;"></div>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="repurchaseQuantity">Quantità</label>
+      <input type="number" id="repurchaseQuantity" step="0.01" placeholder="0.00">
+    </div>
+    <div>
+      <label for="repurchasePrice">Prezzo (€)</label>
+      <input type="number" id="repurchasePrice" step="0.01" placeholder="0.00">
+      <div id="lastPriceInfo" style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;"></div>
+    </div>
+    <div>
+      <label for="repurchaseRating">Qualità prodotto (opzionale)</label>
+      <div id="repurchaseRatingStars" style="display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;cursor:pointer;">
+        <span class="repurchase-star" data-value="0.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="1" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="1.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="2" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="2.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="3" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="3.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="4" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="4.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="repurchase-star" data-value="5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <input type="hidden" id="repurchaseRating" value="0">
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;">Se non specifichi, verrà mantenuta la qualità precedente</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveRepurchase" class="primary" style="flex:1;">Salva Riacquisto</button>
+    <button id="closeRepurchaseDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<!-- DIALOG MODIFICA PRODOTTO -->
+<dialog id="editDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Modifica Prodotto</h2>
+  <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:0.8rem;margin-bottom:1rem;font-size:0.85rem;">
+    <strong>⚠️ Info:</strong> Puoi modificare <strong>Prezzo</strong>, <strong>Quantità</strong>, <strong>Unità</strong>, <strong>Descrizione</strong> e <strong>Qualità</strong> dell'ultimo acquisto. Prodotto e Fornitore sono bloccati.
+  </div>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="editProduct">Prodotto</label>
+      <input type="text" id="editProduct" disabled style="background:#f3f4f6;cursor:not-allowed;">
+    </div>
+    <div>
+      <label for="editSupplier">Fornitore</label>
+      <input type="text" id="editSupplier" disabled style="background:#f3f4f6;cursor:not-allowed;">
+    </div>
+    <div>
+      <label for="editPrice">Prezzo (€)</label>
+      <input type="number" id="editPrice" step="0.01" style="background:#fffbeb;border:2px solid #fbbf24;">
+    </div>
+    <div>
+      <label for="editQuantity">Quantità</label>
+      <input type="number" id="editQuantity" step="0.01" style="background:#fffbeb;border:2px solid #fbbf24;">
+    </div>
+    <div>
+      <label for="editUnit">Unità</label>
+      <select id="editUnit" style="background:#fffbeb;border:2px solid #fbbf24;">
+        <option value="kg">Kg</option>
+        <option value="litri">Litro/i</option>
+        <option value="pezzi">Pezzo/i</option>
+        <option value="bott">Bott.</option>
+      </select>
+    </div>
+    <div>
+      <label for="editDate">Data</label>
+      <input type="date" id="editDate" disabled style="background:#f3f4f6;cursor:not-allowed;">
+    </div>
+    <div>
+      <label for="editDescription">Descrizione</label>
+      <input type="text" id="editDescription" style="background:#fffbeb;border:2px solid #fbbf24;">
+    </div>
+    <div>
+      <label for="editRating">Qualità prodotto</label>
+      <div id="editRatingStars" style="display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;cursor:pointer;">
+        <span class="edit-star" data-value="0.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="1" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="1.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="2" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="2.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="3" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="3.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="4" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="4.5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <span class="edit-star" data-value="5" style="font-size:1.8rem;color:#d1d5db;transition:all 0.2s;">★</span>
+        <input type="hidden" id="editRating" value="0">
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveEdit" class="primary" style="flex:1;">Salva Modifiche</button>
+    <button id="closeEditDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<!-- DIALOG CONSUMA PRODOTTO -->
+<dialog id="consumeDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Registra Consumo</h2>
+  <div id="consumeContent" style="margin:1rem 0;padding:1rem;background:#f3f4f6;border-radius:8px;">
+    <!-- Info prodotto visualizzate dinamicamente -->
+  </div>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="consumeQuantity">Quantità Consumata *</label>
+      <input type="number" id="consumeQuantity" step="0.01" placeholder="0.00" required>
+    </div>
+    <div>
+      <label for="consumeDate">Data Consumo</label>
+      <input type="date" id="consumeDate">
+    </div>
+  </div>
+  <div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:6px;padding:0.8rem;margin:1rem 0;font-size:0.85rem;">
+    <strong>⚠️ Nota:</strong> Il consumo ridurrà definitivamente la quantità disponibile in archivio.
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveConsume" class="primary" style="flex:1;background:#f59e0b;">Conferma Consumo</button>
+    <button id="closeConsumeDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<!-- DIALOG NUOVO FORNITORE -->
+<dialog id="newSupplierDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Nuovo Fornitore</h2>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="newSupplierName">Nome Fornitore *</label>
+      <input type="text" id="newSupplierName" placeholder="Es: Fornitore X" required>
+    </div>
+    <div>
+      <label for="newSupplierEmail">Email (opzionale)</label>
+      <input type="email" id="newSupplierEmail" placeholder="email@esempio.it">
+    </div>
+    <div>
+      <label for="newSupplierPhone">Telefono Fornitore (opzionale)</label>
+      <input type="tel" id="newSupplierPhone" placeholder="123-456-7890">
+    </div>
+    <div>
+      <label for="newSupplierPhoneManager">Telefono Manager (opzionale)</label>
+      <input type="tel" id="newSupplierPhoneManager" placeholder="123-456-7890">
+    </div>
+    <div>
+      <label for="newSupplierAddress">Indirizzo (opzionale)</label>
+      <input type="text" id="newSupplierAddress" placeholder="Via, Città, CAP">
+    </div>
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveNewSupplier" class="primary" style="flex:1;">Salva Fornitore</button>
+    <button id="closeNewSupplierDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<!-- DIALOG NUOVO PRODOTTO -->
+<dialog id="newProductDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Nuovo Prodotto</h2>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="newProductName">Nome Prodotto *</label>
+      <input type="text" id="newProductName" placeholder="Es: Pomodoro" required>
+    </div>
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveNewProduct" class="primary" style="flex:1;">Salva Prodotto</button>
+    <button id="closeNewProductDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<!-- DIALOG AZIONI ARCHIVIO -->
+<dialog id="actionsDialog" class="actions-dialog">
+  <h2 style="margin:0 0 1.2rem 0;text-align:center;color:var(--primary);">Azioni Disponibili</h2>
+  <div class="actions-grid">
+    <button class="action-btn action-btn-acquista" id="actionAcquista">
+      <span class="action-icon">🛒</span>
+      <span class="action-text">Acquista</span>
+    </button>
+    <button class="action-btn action-btn-consuma" id="actionConsuma">
+      <span class="action-icon">📦</span>
+      <span class="action-text">Consuma</span>
+    </button>
+    <button class="action-btn action-btn-statistiche" id="actionStatistiche">
+      <span class="action-icon">📊</span>
+      <span class="action-text">Statistiche</span>
+    </button>
+    <button class="action-btn action-btn-modifica" id="actionModifica">
+      <span class="action-icon">✏️</span>
+      <span class="action-text">Modifica</span>
+    </button>
+    <button class="action-btn action-btn-elimina" id="actionElimina">
+      <span class="action-icon">🗑️</span>
+      <span class="action-text">Elimina</span>
+    </button>
+  </div>
+  <button id="closeActionsDialog" class="primary" style="margin-top:1rem;background:var(--muted);width:100%;">Chiudi</button>
+</dialog>
+
+<!-- DIALOG DETTAGLI/MODIFICA FORNITORE -->
+<dialog id="supplierDetailsDialog" class="product-dialog">
+  <h2 style="margin-top:0;">Dettagli Fornitore</h2>
+  <div style="display:grid;gap:0.8rem;margin:1rem 0;">
+    <div>
+      <label for="detailSupplierName">Nome Fornitore *</label>
+      <input type="text" id="detailSupplierName" required>
+    </div>
+    <div>
+      <label for="detailSupplierEmail">Email</label>
+      <input type="email" id="detailSupplierEmail" placeholder="email@esempio.it">
+    </div>
+    <div>
+      <label for="detailSupplierPhone">Telefono Fornitore</label>
+      <input type="tel" id="detailSupplierPhone" placeholder="123-456-7890">
+    </div>
+    <div>
+      <label for="detailSupplierPhoneManager">Telefono Manager</label>
+      <input type="tel" id="detailSupplierPhoneManager" placeholder="123-456-7890">
+    </div>
+    <div>
+      <label for="detailSupplierAddress">Indirizzo</label>
+      <input type="text" id="detailSupplierAddress" placeholder="Via, Città, CAP">
+    </div>
+  </div>
+  <div style="display:flex;gap:0.6rem;">
+    <button id="saveSupplierDetails" class="primary" style="flex:1;">Salva Modifiche</button>
+    <button id="closeSupplierDetailsDialog" class="primary" style="flex:1;background:var(--muted);">Annulla</button>
+  </div>
+</dialog>
+
+<div id="toast">Salvato</div>
+
+  <!-- Stile logout button -->
+  <style>
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.2rem;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      color: var(--primary);
+      background: white;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(.4,0,.2,1);
+      margin-left: 2.5rem;
+      margin-right: 0.5rem;
+      box-shadow: 0 1px 2px rgba(212, 200, 171, 0.15);
+      position: relative;
+      overflow: hidden;
+      min-width: 48px;
+      min-height: 48px;
+      gap: 0;
+    }
+    .logout-btn svg {
+      width: 1.6em;
+      height: 1.6em;
+      transition: transform 0.18s cubic-bezier(.4,0,.2,1);
+      color: var(--primary);
+      margin: 0;
+    }
+    .logout-btn:hover {
+      background: linear-gradient(90deg, #fee2e2 0%, #fff 100%);
+      border-color: #fca5a5;
+      color: #b91c1c;
+      box-shadow: 0 4px 16px rgba(252,165,165,0.10);
+    }
+    .logout-btn:hover svg {
+      transform: translateX(4px);
+      color: #b91c1c;
+    }
+    @media (max-width: 768px) {
+      .logout-btn { 
+        padding: 0.5rem 0.7rem; 
+        font-size: 1.1rem;
+        min-width: 40px;
+        min-height: 40px;
+        margin-left: 1rem;
+      }
+    }
+  </style>
+
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/ai-analyzer.js"></script>
+  
+  <!-- Logout script -->
+  <script>
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      if (confirm('Vuoi effettuare il logout?')) {
+        // Logout sicuro da Supabase Auth
+        const supabaseUrl = 'https://zlyikcrrwjxmvoigqpdi.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpseWlrY3Jyd2p4bXZvaWdxcGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzIxMTEsImV4cCI6MjA4MzQ0ODExMX0.QaRjSOSWjq0zBZtIvM0fSgqJSgIxpfwaHEfyB-j-Q5w';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        await supabase.auth.signOut();
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+
+  <!-- Migliora bottone Esci: solo icona SVG -->
+  <script>
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.innerHTML = `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 15.5V16.5C13.5 17.3284 12.8284 18 12 18H5C4.17157 18 3.5 17.3284 3.5 16.5V3.5C3.5 2.67157 4.17157 2 5 2H12C12.8284 2 13.5 2.67157 13.5 3.5V4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16.5 10L8.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12.5 6.5L16.5 10L12.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+    }
+  </script>
+
