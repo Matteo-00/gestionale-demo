@@ -1,0 +1,179 @@
+/* ===================================
+   SISTEMA TEMA DINAMICO CUSTOM
+   Theme Variables per Branding Personalizzato
+   =================================== */
+
+/* DEFAULT THEME VARIABLES - Saranno sovrascritte dinamicamente */
+:root {
+  /* === COLORI FUNZIONALI OPERATIVI (FISSI - NON MODIFICABILI) === */
+  /* Questi colori rimangono SEMPRE invariati */
+  
+  /* Bottoni Azione */
+  --btn-delete: #ef4444;
+  --btn-delete-hover: #dc2626;
+  --btn-delete-bg: #fef2f2;
+  
+  --btn-save: #10b981;
+  --btn-save-hover: #059669;
+  --btn-save-bg: #d1fae5;
+  
+  --btn-cancel: #6b7280;
+  --btn-cancel-hover: #4b5563;
+  --btn-cancel-bg: #f3f4f6;
+  
+  --btn-edit: #3b82f6;
+  --btn-edit-hover: #2563eb;
+  --btn-edit-bg: #dbeafe;
+  
+  /* Alert e Stati Sistema */
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --success-border: #6ee7b7;
+  --success-text: #047857;
+  
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --warning-border: #fbbf24;
+  --warning-text: #b45309;
+  
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
+  --danger-border: #fca5a5;
+  --danger-text: #b91c1c;
+  
+  --info: #3b82f6;
+  --info-bg: #dbeafe;
+  --info-border: #93c5fd;
+  --info-text: #1d4ed8;
+  
+  /* Tabelle - Colori Neutri Standard */
+  --table-header-bg: #f9fafb;
+  --table-header-text: #374151;
+  --table-border: #e5e7eb;
+  --table-row-hover: #f9fafb;
+  --table-row-even: #ffffff;
+  --table-row-odd: #fafafa;
+  
+  /* === COLORI BRANDING CUSTOM (DINAMICI) === */
+  /* Questi vengono sovrascritti dal configuratore */
+  
+  /* Colori Primari Brand */
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --primary-pale: #e0e7ff;
+  
+  /* Colori Secondari */
+  --secondary: #8b5cf6;
+  --secondary-light: #a78bfa;
+  --secondary-dark: #7c3aed;
+  
+  /* Accent */
+  --accent: #f59e0b;
+  --accent-light: #fbbf24;
+  --accent-dark: #d97706;
+  
+  /* Backgrounds */
+  --bg: #fafafa;
+  --bg-secondary: #f5f5f5;
+  
+  /* Superfici */
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  
+  /* Cards */
+  --card: #ffffff;
+  --card-subtle: #f8fafc;
+  
+  /* Sidebar & Navbar */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e4e4e7;
+  --sidebar-text: #18181b;
+  --sidebar-text-muted: #71717a;
+  --sidebar-hover: #f4f4f5;
+  --sidebar-active: #e4e4e7;
+  
+  --navbar-bg: #ffffff;
+  --navbar-border: #e4e4e7;
+  --navbar-text: #18181b;
+  
+  /* Testi */
+  --text: #18181b;
+  --text-light: #71717a;
+  --text-muted: #a1a1aa;
+  --nero: #09090b;
+  
+  /* Bordi */
+  --border: #e4e4e7;
+  --border-light: #f4f4f5;
+  
+  /* Ombre */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Colori Grafici/Charts (CUSTOM) */
+  --chart-1: #6366f1;
+  --chart-2: #8b5cf6;
+  --chart-3: #ec4899;
+  --chart-4: #f59e0b;
+  --chart-5: #10b981;
+  --chart-6: #3b82f6;
+}
+
+/* ===================================
+   DARK MODE SUPPORT (Preparato per futuro)
+   =================================== */
+:root[data-mode="dark"] {
+  --bg: #0f172a;
+  --bg-secondary: #1e293b;
+  --surface: #1e293b;
+  --surface-elevated: #334155;
+  --card: #1e293b;
+  --card-subtle: #334155;
+  --text: #f1f5f9;
+  --text-light: #cbd5e1;
+  --text-muted: #94a3b8;
+  --nero: #f8fafc;
+  --border: #334155;
+  --border-light: #475569;
+  --sidebar-bg: #1e293b;
+  --sidebar-border: #334155;
+  --sidebar-text: #f1f5f9;
+  --sidebar-text-muted: #94a3b8;
+  --sidebar-hover: #334155;
+  --sidebar-active: #475569;
+  --navbar-bg: #1e293b;
+  --navbar-border: #334155;
+  --navbar-text: #f1f5f9;
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+.bg-primary { background-color: var(--primary) !important; }
+.bg-secondary { background-color: var(--secondary) !important; }
+.bg-accent { background-color: var(--accent) !important; }
+
+.text-primary { color: var(--primary) !important; }
+.text-secondary { color: var(--secondary) !important; }
+.text-accent { color: var(--accent) !important; }
+
+.border-primary { border-color: var(--primary) !important; }
+.border-secondary { border-color: var(--secondary) !important; }
+.border-accent { border-color: var(--accent) !important; }
+
+/* Solid Color Utilities (NO GRADIENTS) */
+.solid-primary {
+  background: var(--primary);
+}
+
+.solid-secondary {
+  background: var(--secondary);
+}
+
+.solid-accent {
+  background: var(--accent);
+}

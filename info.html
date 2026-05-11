@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Informazioni - Gestionale Magazzino Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/themes-new.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fafafa;
+      color: #0a0a0a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 64px;
+      padding: 48px 24px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .logo-title {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a0a0a;
+      margin-bottom: 12px;
+    }
+
+    .logo-subtitle {
+      font-size: 18px;
+      color: #737373;
+      font-weight: 400;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: #a3a3a3;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* Sections */
+    .section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 32px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-description {
+      font-size: 16px;
+      color: #525252;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .feature-card {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 24px;
+      border: 1px solid #e5e5e5;
+      transition: all 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: #a3a3a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-bottom: 8px;
+    }
+
+    .feature-description {
+      font-size: 14px;
+      color: #737373;
+      line-height: 1.6;
+    }
+
+    /* List */
+    .info-list {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .info-list li {
+      padding: 12px 0;
+      padding-left: 28px;
+      position: relative;
+      font-size: 15px;
+      color: #525252;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .info-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #10b981;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .tech-badge {
+      background: #f5f5f5;
+      color: #525252;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #e5e5e5;
+    }
+
+    /* CTA Button */
+    .cta-section {
+      text-align: center;
+      padding: 48px 24px;
+      background: linear-gradient(to bottom, #ffffff, #fafafa);
+      border-radius: 16px;
+      border: 1px solid #e5e5e5;
+      margin-top: 40px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #0a0a0a;
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: #262626;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 24px;
+      background: #fafafa;
+      border-radius: 10px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #737373;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid #e5e5e5;
+      color: #a3a3a3;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- HEADER -->
+  <div class="header">
+    <h1 class="logo-title">Gestionale Magazzino Premium</h1>
+    <p class="logo-subtitle">Sistema di Gestione Acquisti e Fornitori Professionale</p>
+    <p class="tagline">Semplice, Potente, Intelligente</p>
+  </div>
+
+  <!-- COSA È -->
+  <div class="section">
+    <h2 class="section-title">📋 Cos'è il Gestionale Magazzino Premium?</h2>
+    <p class="section-description">
+      <strong>Gestionale Magazzino Premium</strong> è un'applicazione web professionale progettata per aiutare aziende, 
+      ristoranti, negozi e PMI a gestire facilmente i propri acquisti, fornitori e prodotti. 
+      Con un'interfaccia moderna e intuitiva, permette di registrare ogni acquisto, monitorare le spese, 
+      confrontare i fornitori e prendere decisioni informate grazie all'intelligenza artificiale integrata.
+    </p>
+    <p class="section-description">
+      Perfetto per chi cerca una soluzione <strong>semplice ma completa</strong> per tenere sotto controllo il magazzino, 
+      ottimizzare i costi e migliorare la gestione degli acquisti quotidiani.
+    </p>
+  </div>
+
+  <!-- FUNZIONALITÀ PRINCIPALI -->
+  <div class="section">
+    <h2 class="section-title">✨ Funzionalità Principali</h2>
+    
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <h3 class="feature-title">Home - Nuovo Acquisto</h3>
+        <p class="feature-description">
+          Registra velocemente nuovi acquisti con ricerca intelligente di prodotti e fornitori già registrati. 
+          Valuta la qualità del prodotto con sistema a stelle e monitora l'andamento spese con grafici in tempo reale.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3 class="feature-title">Archivio Acquisti</h3>
+        <p class="feature-description">
+          Accedi a tutti gli acquisti registrati con filtri avanzati per prodotto, fornitore, prezzo e data. 
+          Esporta i dati in Excel o PDF per reportistica e analisi esterne.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <h3 class="feature-title">Gestione Fornitori</h3>
+        <p class="feature-description">
+          Gestisci l'anagrafica completa dei tuoi fornitori con aggiunta, modifica ed eliminazione rapida. 
+          Visualizza statistiche dettagliate su spese e acquisti per fornitore.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card">
+        <div class="feature-icon">🛒</div>
+        <h3 class="feature-title">Gestione Prodotti</h3>
+        <p class="feature-description">
+          Cataloga tutti i prodotti acquistati con possibilità di rinominare, modificare o eliminare. 
+          Ricerca veloce e filtri per trovare subito ciò che cerchi.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3 class="feature-title">Analisi AI Intelligente</h3>
+        <p class="feature-description">
+          L'intelligenza artificiale analizza tutti gli acquisti di un prodotto e confronta i fornitori 
+          considerando prezzo, qualità, rapporto qualità-prezzo e affidabilità. Ricevi consigli su dove acquistare.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Dashboard Statistiche</h3>
+        <p class="feature-description">
+          Visualizza grafici interattivi su spese totali, top prodotti, ranking fornitori, 
+          andamento spese nel tempo e distribuzione acquisti. Tutti i dati a colpo d'occhio.
+        </p>
+      </div>
+
+      <!-- Feature 7 -->
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3 class="feature-title">Temi Personalizzabili</h3>
+        <p class="feature-description">
+          Sistema di temi dinamici con 12 palette professionali soft e moderne. 
+          Personalizza nome progetto, logo e colori per adattare il gestionale alla tua brand identity.
+        </p>
+      </div>
+
+      <!-- Feature 8 -->
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 class="feature-title">100% Responsive</h3>
+        <p class="feature-description">
+          Design completamente ottimizzato per desktop, tablet e smartphone. 
+          Gestisci il tuo magazzino ovunque ti trovi, da qualsiasi dispositivo.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COSA OFFRE -->
+  <div class="section">
+    <h2 class="section-title">🎯 Cosa Offre il Gestionale?</h2>
+    <p class="section-description">
+      Il Gestionale Magazzino Premium è una soluzione completa che integra tutte le funzionalità necessarie 
+      per una gestione efficiente del magazzino e degli acquisti:
+    </p>
+
+    <ul class="info-list">
+      <li><strong>Registrazione Acquisti:</strong> Form intuitivo per inserire prodotto, fornitore, quantità, prezzo, data e note</li>
+      <li><strong>Valutazione Qualità:</strong> Sistema a stelle per valutare la qualità di ogni acquisto</li>
+      <li><strong>Ricerca Intelligente:</strong> Cerca velocemente prodotti e fornitori già registrati prima di inserirne di nuovi</li>
+      <li><strong>Filtri Avanzati:</strong> Filtra l'archivio per prodotto, fornitore, prezzo (crescente/decrescente) e range di date</li>
+      <li><strong>Export Dati:</strong> Esporta l'archivio in formato Excel (.xlsx) o PDF per reportistica</li>
+      <li><strong>Paginazione:</strong> Visualizza grandi quantità di dati con navigazione paginata fluida</li>
+      <li><strong>Grafici Interattivi:</strong> Chart.js per visualizzare spese nel tempo, top prodotti, ranking fornitori</li>
+      <li><strong>Analisi AI:</strong> Intelligenza artificiale Gemini integrata per analisi comparative dei fornitori</li>
+      <li><strong>Badge Statistiche:</strong> Widget in home page con spese totali, fornitori attivi e prodotti registrati</li>
+      <li><strong>Andamento Spese:</strong> Grafico trend con filtri temporali (7g, 30g, 90g, 6m, 1 anno)</li>
+      <li><strong>Gestione Anagrafica:</strong> CRUD completo (Create, Read, Update, Delete) per fornitori e prodotti</li>
+      <li><strong>Sistema Autenticazione:</strong> Login sicuro con sessione utente</li>
+      <li><strong>Database Cloud:</strong> Integrazione Supabase per storage sicuro e affidabile</li>
+      <li><strong>Design Premium:</strong> UI moderna tipo SaaS (Linear, Notion, Stripe)</li>
+      <li><strong>Temi Dinamici:</strong> 12 palette professionali + personalizzazione completa</li>
+      <li><strong>Logo Custom:</strong> Upload logo aziendale con drag & drop</li>
+      <li><strong>Performance Ottimizzate:</strong> Caricamento veloce (<400ms) e interazioni fluide (<150ms)</li>
+      <li><strong>Accessibilità:</strong> Contrasti WCAG AA, navigazione tastiera, ARIA labels</li>
+    </ul>
+  </div>
+
+  <!-- SEZIONI DETTAGLIATE -->
+  <div class="section">
+    <h2 class="section-title">📂 Sezioni del Gestionale</h2>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:20px;font-weight:600;">1. Home - Nuovo Acquisto</h3>
+    <ul class="info-list">
+      <li>Form registrazione acquisto con campi: Prodotto, Fornitore, Quantità, Unità di misura, Prezzo, Data, Note</li>
+      <li>Ricerca rapida prodotti/fornitori esistenti con lista suggerimenti dinamica</li>
+      <li>Inserimento nuovo prodotto o fornitore direttamente dal form</li>
+      <li>Valutazione qualità prodotto con sistema stelle (0-5)</li>
+      <li>Badge statistiche: Spese Totali, Fornitori Attivi, Prodotti Registrati</li>
+      <li>Grafico Andamento Spese con filtri temporali personalizzabili</li>
+      <li>Validazione campi e feedback immediato</li>
+    </ul>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:20px;font-weight:600;">2. Archivio Acquisti</h3>
+    <ul class="info-list">
+      <li>Tabella completa di tutti gli acquisti registrati</li>
+      <li>Filtri: Prodotto, Fornitore, Prezzo (crescente/decrescente/esatto), Data (recente/vecchio/intervallo)</li>
+      <li>Pulsanti Azzera Filtri (singolo o tutti contemporaneamente)</li>
+      <li>Azioni per riga: Modifica, Elimina</li>
+      <li>Paginazione con navigazione avanti/indietro</li>
+      <li>Export Excel (.xlsx) con tutti i dati filtrati</li>
+      <li>Export PDF con formattazione professionale</li>
+      <li>Visualizzazione qualità prodotto con stelle</li>
+    </ul>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:20px;font-weight:600;">3. Fornitori/Prodotti</h3>
+    <ul class="info-list">
+      <li>Due tabelle affiancate: Fornitori a sinistra, Prodotti a destra</li>
+      <li>Pulsante Nuovo Fornitore/Prodotto per aggiunta rapida</li>
+      <li>Ricerca filtrata per nome fornitore o prodotto</li>
+      <li>Modifica nome fornitore/prodotto con conferma</li>
+      <li>Eliminazione fornitore/prodotto con conferma sicurezza</li>
+      <li>Paginazione indipendente per ogni tabella</li>
+      <li>Statistiche: Numero totale fornitori attivi e prodotti catalogati</li>
+    </ul>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:20px;font-weight:600;">4. Statistiche - Analisi AI</h3>
+    <ul class="info-list">
+      <li>Selezione prodotto e fornitore da analizzare</li>
+      <li>Pulsante Analizza con AI per avviare analisi intelligente</li>
+      <li>L'AI valuta: Prezzo unitario, Qualità, Rapporto qualità-prezzo, Affidabilità fornitore, Note</li>
+      <li>Risultati: Classifica migliori acquisti, Raccomandazioni AI, Statistiche comparative</li>
+      <li>Riepilogo completo per decisioni d'acquisto informate</li>
+      <li>Loading animation durante analisi</li>
+    </ul>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:20px;font-weight:600;">5. Statistiche - Dashboard</h3>
+    <ul class="info-list">
+      <li>Grafico Torta: Distribuzione spese per fornitore</li>
+      <li>Grafico Barre: Top 10 prodotti più acquistati</li>
+      <li>Card Statistiche: Spesa totale, Media spesa acquisto, Prodotti unici, Fornitori unici</li>
+      <li>Grafico Trend: Andamento spese settimanale con curve smooth</li>
+      <li>Ranking Fornitori: Classifica per spesa totale con medaglie (oro/argento/bronzo)</li>
+      <li>Ranking Prodotti: Classifica prodotti più costosi con qualità media</li>
+      <li>Filtri AI: Fornitore più economico, Miglior qualità, Miglior rapporto qualità-prezzo</li>
+      <li>Tutti i grafici aggiornati in tempo reale</li>
+    </ul>
+  </div>
+
+  <!-- TECNOLOGIE -->
+  <div class="section">
+    <h2 class="section-title">⚙️ Tecnologie Utilizzate</h2>
+    <p class="section-description">
+      Il Gestionale è costruito con tecnologie web moderne e affidabili per garantire 
+      performance, sicurezza e facilità di manutenzione:
+    </p>
+
+    <div class="tech-stack">
+      <span class="tech-badge">HTML5</span>
+      <span class="tech-badge">CSS3</span>
+      <span class="tech-badge">JavaScript ES6+</span>
+      <span class="tech-badge">Chart.js</span>
+      <span class="tech-badge">Supabase</span>
+      <span class="tech-badge">Google Gemini AI</span>
+      <span class="tech-badge">SheetJS (Excel)</span>
+      <span class="tech-badge">jsPDF</span>
+      <span class="tech-badge">Inter Font</span>
+      <span class="tech-badge">CSS Variables</span>
+      <span class="tech-badge">LocalStorage</span>
+      <span class="tech-badge">SessionStorage</span>
+      <span class="tech-badge">Responsive Design</span>
+    </div>
+
+    <h3 style="margin-top:32px;margin-bottom:16px;font-size:18px;font-weight:600;">Architettura:</h3>
+    <ul class="info-list">
+      <li><strong>Frontend:</strong> Single Page Application (SPA) con navigazione tab-based</li>
+      <li><strong>Backend:</strong> Supabase PostgreSQL database per storage dati</li>
+      <li><strong>AI:</strong> Google Gemini API per analisi intelligente prodotti</li>
+      <li><strong>Stile:</strong> CSS Variables system per temi dinamici personalizzabili</li>
+      <li><strong>Charts:</strong> Chart.js per grafici interattivi e responsive</li>
+      <li><strong>Export:</strong> SheetJS per Excel, jsPDF per generazione PDF</li>
+    </ul>
+  </div>
+
+  <!-- TARGET UTENTI -->
+  <div class="section">
+    <h2 class="section-title">👥 Per Chi è il Gestionale?</h2>
+    <p class="section-description">
+      Gestionale Magazzino Premium è ideale per diverse tipologie di business che necessitano 
+      di tracciare acquisti, gestire fornitori e ottimizzare le spese:
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🍽️</div>
+        <h3 class="feature-title">Ristoranti & Bar</h3>
+        <p class="feature-description">
+          Traccia acquisti di materie prime, confronta fornitori food, ottimizza costi ingredienti
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛍️</div>
+        <h3 class="feature-title">Negozi Retail</h3>
+        <p class="feature-description">
+          Gestisci inventario prodotti, monitora fornitori merchandising, analizza margini
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <h3 class="feature-title">PMI & Uffici</h3>
+        <p class="feature-description">
+          Controlla spese aziendali, gestisci fornitori servizi, reportistica acquisti corporate
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏪</div>
+        <h3 class="feature-title">Negozi Alimentari</h3>
+        <p class="feature-description">
+          Traccia prodotti freschi, confronta prezzi grossisti, monitora qualità rifornimenti
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏨</div>
+        <h3 class="feature-title">Hotel & B&B</h3>
+        <p class="feature-description">
+          Gestisci acquisti forniture, monitora spese cucina e pulizie, ottimizza budget
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💼</div>
+        <h3 class="feature-title">Studi Professionali</h3>
+        <p class="feature-description">
+          Traccia materiali consumabili, gestisci fornitori servizi, reportistica spese deducibili
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VANTAGGI -->
+  <div class="section">
+    <h2 class="section-title">🚀 Perché Scegliere Questo Gestionale?</h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">⚡</div>
+        <p class="stat-label">Setup Rapido</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">💰</div>
+        <p class="stat-label">Risparmio Garantito</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">🎯</div>
+        <p class="stat-label">Decisioni Informate</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">📊</div>
+        <p class="stat-label">Dati Sempre Chiari</p>
+      </div>
+    </div>
+
+    <ul class="info-list" style="margin-top:32px;">
+      <li><strong>Semplicità d'uso:</strong> Interfaccia intuitiva che non richiede formazione</li>
+      <li><strong>Risparmio tempo:</strong> Registrazione acquisti in pochi secondi</li>
+      <li><strong>Risparmio denaro:</strong> AI ti aiuta a scegliere i fornitori più convenienti</li>
+      <li><strong>Controllo totale:</strong> Tutti i dati in un unico posto, sempre accessibili</li>
+      <li><strong>Decisioni data-driven:</strong> Statistiche e grafici per scelte consapevoli</li>
+      <li><strong>Professional look:</strong> Design moderno che valorizza il tuo business</li>
+      <li><strong>Personalizzabile:</strong> Adatta colori e logo alla tua brand identity</li>
+      <li><strong>Sicuro e affidabile:</strong> Database cloud Supabase con backup automatico</li>
+      <li><strong>Sempre aggiornato:</strong> Dati in tempo reale, sincronizzati ovunque</li>
+      <li><strong>Scalabile:</strong> Gestisci da 10 a 10.000+ acquisti senza problemi</li>
+    </ul>
+  </div>
+
+  <!-- SETUP -->
+  <div class="section">
+    <h2 class="section-title">🎨 Setup e Personalizzazione</h2>
+    <p class="section-description">
+      Prima di iniziare a usare il gestionale, puoi personalizzarlo completamente per adattarlo 
+      alla tua azienda con il sistema Setup Premium v3.0:
+    </p>
+
+    <h3 style="margin-top:24px;margin-bottom:12px;font-size:18px;font-weight:600;">Cosa Puoi Personalizzare:</h3>
+    <ul class="info-list">
+      <li><strong>Nome Progetto:</strong> Inserisci il nome della tua azienda (es. "Ristorante La Nonna")</li>
+      <li><strong>Logo Aziendale:</strong> Carica il tuo logo con drag & drop (PNG, JPG, SVG)</li>
+      <li><strong>Palette Colori:</strong> Scegli tra 12 palette professionali soft e moderne</li>
+      <li><strong>Preview Live:</strong> Vedi in tempo reale come apparirà il gestionale</li>
+    </ul>
+
+    <h3 style="margin-top:24px;margin-bottom:12px;font-size:18px;font-weight:600;">12 Palette Professionali:</h3>
+    <div class="tech-stack">
+      <span class="tech-badge">Sand Professional</span>
+      <span class="tech-badge">Slate Modern</span>
+      <span class="tech-badge">Soft Blue SaaS</span>
+      <span class="tech-badge">Minimal Light</span>
+      <span class="tech-badge">Elegant Dark</span>
+      <span class="tech-badge">Warm Gray</span>
+      <span class="tech-badge">Sage Green</span>
+      <span class="tech-badge">Graphite Premium</span>
+      <span class="tech-badge">Neutral White</span>
+      <span class="tech-badge">Midnight Soft</span>
+      <span class="tech-badge">Soft Corporate</span>
+      <span class="tech-badge">Clean Dashboard</span>
+    </div>
+
+    <p class="section-description" style="margin-top:24px;">
+      Tutte le palette sono progettate con colori <strong>soft, neutri e business-ready</strong>, 
+      perfetti per presentare il gestionale a clienti professionali. Niente colori accesi o gaming-like!
+    </p>
+  </div>
+
+  <!-- SICUREZZA -->
+  <div class="section">
+    <h2 class="section-title">🔒 Sicurezza e Privacy</h2>
+    <ul class="info-list">
+      <li><strong>Autenticazione:</strong> Sistema login con sessione utente sicura</li>
+      <li><strong>Database Cloud:</strong> Supabase PostgreSQL con crittografia dati</li>
+      <li><strong>Backup Automatico:</strong> I dati sono salvati e replicati automaticamente</li>
+      <li><strong>Privacy:</strong> I tuoi dati rimangono privati, nessuna condivisione con terzi</li>
+      <li><strong>Protezione:</strong> Redirect automatico a login se non autenticato</li>
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2 style="font-size:32px;margin-bottom:16px;">Pronto per Iniziare?</h2>
+    <p style="color:#737373;margin-bottom:32px;font-size:16px;">
+      Configura il tuo gestionale personalizzato in meno di 30 secondi e inizia a ottimizzare i tuoi acquisti!
+    </p>
+    <a href="setup-premium.html" class="cta-button">Configura Ora →</a>
+    <p style="color:#a3a3a3;margin-top:24px;font-size:14px;">
+      Oppure <a href="login.html" style="color:#0a0a0a;text-decoration:underline;">accedi</a> se hai già un account
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Gestionale Magazzino Premium v3.0</p>
+    <p style="margin-top:8px;">Design Premium SaaS • 100% Responsive • AI Powered</p>
+    <p style="margin-top:16px;font-size:13px;">© 2026 - Tutti i diritti riservati</p>
+  </div>
+
+</div>
+
+<!-- Theme Manager -->
+<script src="js/theme-manager-v2.js"></script>
+
+</body>
+</html>

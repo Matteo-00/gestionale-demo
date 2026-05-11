@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Sistema Tema Dinamico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/themes-new.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .colors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .color-box {
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .color-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .primary { background: var(--primary); color: white; }
+    .secondary { background: var(--secondary); color: white; }
+    .accent { background: var(--accent); color: white; }
+
+    .buttons-demo {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-delete {
+      background: var(--btn-delete);
+      color: white;
+    }
+
+    .btn-save {
+      background: var(--btn-save);
+      color: white;
+    }
+
+    .btn-cancel {
+      background: var(--btn-cancel);
+      color: white;
+    }
+
+    .btn-edit {
+      background: var(--btn-edit);
+      color: white;
+    }
+
+    .btn-primary-custom {
+      background: var(--primary);
+      color: white;
+    }
+
+    .alerts-demo {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .alert {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: var(--success-text);
+    }
+
+    .alert-warning {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: var(--warning-text);
+    }
+
+    .alert-danger {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: var(--danger-text);
+    }
+
+    .alert-info {
+      background: var(--info-bg);
+      border-color: var(--info);
+      color: var(--info-text);
+    }
+
+    .cards-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary);
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .chart-demo {
+      height: 200px;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--card-subtle);
+      border-radius: 8px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      border-radius: 6px 6px 0 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .chart-bar:hover {
+      opacity: 0.8;
+      transform: scaleY(1.05);
+    }
+
+    .controls {
+      background: var(--card-subtle);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .control-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    input[type="color"] {
+      width: 100px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, var(--primary-pale) 0%, var(--primary-light) 100%);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--primary);
+      margin-bottom: 2rem;
+    }
+
+    .table-demo {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table-demo th {
+      background: var(--table-header-bg);
+      color: var(--table-header-text);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .table-demo td {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--table-border);
+    }
+
+    .table-demo tr:hover {
+      background: var(--table-row-hover);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Test Sistema Tema Dinamico</h1>
+    <p class="subtitle">Verifica visiva di tutti i componenti con il tema custom applicato</p>
+
+    <!-- Info Box -->
+    <div class="info-box">
+      <strong>ℹ️ Informazioni Tema Attuale</strong>
+      <div id="themeInfo" style="margin-top: 0.5rem; font-size: 0.875rem;">
+        Caricamento tema...
+      </div>
+    </div>
+
+    <!-- Controlli Rapidi -->
+    <div class="section">
+      <div class="section-title">⚙️ Controlli Rapidi</div>
+      <div class="controls">
+        <div class="control-group">
+          <label>Colore Primario:</label>
+          <input type="color" id="primaryColor" value="#6366f1">
+        </div>
+        <div class="control-group">
+          <label>Colore Secondario:</label>
+          <input type="color" id="secondaryColor" value="#8b5cf6">
+        </div>
+        <div class="control-group">
+          <label>Colore Accent:</label>
+          <input type="color" id="accentColor" value="#f59e0b">
+        </div>
+        <button class="btn btn-primary-custom" onclick="applyColors()">Applica Colori</button>
+        <button class="btn btn-cancel" onclick="resetTheme()">Reset Tema</button>
+      </div>
+    </div>
+
+    <!-- Colori Brand (DINAMICI) -->
+    <div class="section">
+      <div class="section-title">🎨 Colori Brand (DINAMICI - Personalizzabili)</div>
+      <div class="colors-grid">
+        <div class="color-box primary">Primario</div>
+        <div class="color-box secondary">Secondario</div>
+        <div class="color-box accent">Accent</div>
+      </div>
+      <p style="color: var(--text-light); font-size: 0.875rem;">
+        Questi colori cambiano in base al tema configurato
+      </p>
+    </div>
+
+    <!-- Bottoni Operativi (FISSI) -->
+    <div class="section">
+      <div class="section-title">🔘 Bottoni Operativi (FISSI - NON Modificabili)</div>
+      <div class="buttons-demo">
+        <button class="btn btn-delete">🗑️ Elimina</button>
+        <button class="btn btn-save">💾 Salva</button>
+        <button class="btn btn-cancel">❌ Annulla</button>
+        <button class="btn btn-edit">✏️ Modifica</button>
+      </div>
+      <p style="color: var(--text-light); font-size: 0.875rem;">
+        ⚠️ Questi bottoni mantengono SEMPRE i colori standard (rosso, verde, grigio, blu)
+      </p>
+    </div>
+
+    <!-- Alert Sistema (FISSI) -->
+    <div class="section">
+      <div class="section-title">⚠️ Alert Sistema (FISSI - NON Modificabili)</div>
+      <div class="alerts-demo">
+        <div class="alert alert-success">
+          <strong>✅ Successo:</strong> Operazione completata con successo
+        </div>
+        <div class="alert alert-warning">
+          <strong>⚠️ Attenzione:</strong> Controlla i dati inseriti
+        </div>
+        <div class="alert alert-danger">
+          <strong>❌ Errore:</strong> Si è verificato un errore
+        </div>
+        <div class="alert alert-info">
+          <strong>ℹ️ Info:</strong> Informazione importante
+        </div>
+      </div>
+      <p style="color: var(--text-light); font-size: 0.875rem;">
+        ⚠️ Gli alert mantengono SEMPRE i colori standard del sistema
+      </p>
+    </div>
+
+    <!-- Cards (DINAMICI) -->
+    <div class="section">
+      <div class="section-title">📊 Cards Statistiche (DINAMICI)</div>
+      <div class="cards-demo">
+        <div class="card">
+          <div class="card-title">Vendite</div>
+          <div class="card-value">€12,450</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Ordini</div>
+          <div class="card-value">248</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Clienti</div>
+          <div class="card-value">1,024</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Prodotti</div>
+          <div class="card-value">356</div>
+        </div>
+      </div>
+      <p style="color: var(--text-light); font-size: 0.875rem;">
+        Le cards usano i colori del tema custom (background, bordi, hover)
+      </p>
+    </div>
+
+    <!-- Grafici (DINAMICI) -->
+    <div class="section">
+      <div class="section-title">📈 Grafico Demo (DINAMICI)</div>
+      <div class="chart-demo" id="chartDemo">
+        <!-- Generato da JS -->
+      </div>
+      <p style="color: var(--text-light); font-size: 0.875rem;">
+        I colori dei grafici sono completamente personalizzabili
+      </p>
+    </div>
+
+    <!-- Tabella (FISSI) -->
+    <div class="section">
+      <div class="section-title">📋 Tabella (FISSI - Colori Neutri)</div>
+      <table class="table-demo">
+        <thead>
+          <tr>
+            <th>Prodotto</th>
+            <th>Quantità</th>
+            <th>Prezzo</th>
+            <th>Totale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prodotto A</td>
+            <td>45</td>
+            <td>€24.90</td>
+            <td>€1,120.50</td>
+          </tr>
+          <tr>
+            <td>Prodotto B</td>
+            <td>32</td>
+            <td>€15.50</td>
+            <td>€496.00</td>
+          </tr>
+          <tr>
+            <td>Prodotto C</td>
+            <td>28</td>
+            <td>€32.00</td>
+            <td>€896.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="color: var(--text-light); font-size: 0.875rem; margin-top: 1rem;">
+        ⚠️ Le tabelle mantengono colori neutri standard
+      </p>
+    </div>
+  </div>
+
+  <script src="js/theme-manager-v2.js"></script>
+  <script>
+    // Mostra info tema
+    function updateThemeInfo() {
+      const theme = themeManager.getTheme();
+      const infoHtml = `
+        <strong>Nome Progetto:</strong> ${theme.projectName}<br>
+        <strong>Colore Primario:</strong> ${theme.primaryColor}<br>
+        <strong>Colore Secondario:</strong> ${theme.secondaryColor}<br>
+        <strong>Colore Accent:</strong> ${theme.accentColor}<br>
+        <strong>Configurato:</strong> ${theme.configured ? '✅ Sì' : '❌ No'}<br>
+        <strong>Dark Mode:</strong> ${theme.darkMode ? '🌙 Attivo' : '☀️ Disattivo'}
+      `;
+      document.getElementById('themeInfo').innerHTML = infoHtml;
+    }
+
+    // Genera grafico
+    function renderChart() {
+      const chartColors = themeManager.getChartColors();
+      const heights = [60, 80, 45, 90, 70, 85];
+      const chartContainer = document.getElementById('chartDemo');
+      
+      chartContainer.innerHTML = '';
+      
+      heights.forEach((height, index) => {
+        const bar = document.createElement('div');
+        bar.className = 'chart-bar';
+        bar.style.height = `${height}%`;
+        bar.style.background = chartColors[index % chartColors.length];
+        chartContainer.appendChild(bar);
+      });
+    }
+
+    // Applica colori custom
+    function applyColors() {
+      const primary = document.getElementById('primaryColor').value;
+      const secondary = document.getElementById('secondaryColor').value;
+      const accent = document.getElementById('accentColor').value;
+      
+      themeManager.setColors({
+        primary,
+        secondary,
+        accent
+      });
+      
+      updateThemeInfo();
+      renderChart();
+      
+      alert('✅ Colori applicati! Il tema è stato aggiornato.');
+    }
+
+    // Reset tema
+    function resetTheme() {
+      if (confirm('Vuoi resettare il tema ai valori di default?')) {
+        themeManager.reset();
+        location.reload();
+      }
+    }
+
+    // Inizializzazione
+    document.addEventListener('DOMContentLoaded', () => {
+      updateThemeInfo();
+      renderChart();
+      
+      // Carica valori correnti nei color pickers
+      const theme = themeManager.getTheme();
+      document.getElementById('primaryColor').value = theme.primaryColor;
+      document.getElementById('secondaryColor').value = theme.secondaryColor;
+      document.getElementById('accentColor').value = theme.accentColor;
+    });
+  </script>
+</body>
+</html>

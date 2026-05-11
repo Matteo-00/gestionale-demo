@@ -11,11 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
   
   <!-- Temi -->
+  <link rel="stylesheet" href="css/themes-new.css">
   <link rel="stylesheet" href="css/themes.css">
   
   <!-- Supabase -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="js/theme-manager.js"></script>
+  <script src="js/theme-manager-v2.js"></script>
   
   <style>
     * {
@@ -506,9 +507,8 @@
       // Nascondi subito la pagina di login per evitare flicker
       document.querySelector('.login-container').style.display = 'none';
 
-      // Ottieni configurazione per il logo di transizione
-      const config = themeManager.getConfig();
-      const transitionLogo = config.logo || '';
+      // Ottieni logo per la transizione
+      const transitionLogo = themeManager.getLogo() || '';
       const logoHtml = transitionLogo ? `<img src="${transitionLogo}" alt="Logo" class="transition-logo" />` : '<div class="transition-logo-placeholder">🎯</div>';
       
       // Animazione di ingresso con cerchio di pallini
@@ -645,20 +645,20 @@
   // ===================================
   
   // Verifica se il progetto è stato configurato
-  const config = themeManager.getConfig();
+  const isConfigured = themeManager.isConfigured();
   
   // Se non configurato, reindirizza a setup.html
-  if (!config.configured) {
-    window.location.href = 'setup.html';
+  if (!isConfigured) {
+    window.location.href = 'setup-premium.html';
   }
   
-  // Applica tema e configurazione
-  themeManager.applyAll();
+  // Il tema è già applicato automaticamente dal theme-manager-v2.js
   
   // Gestione logo
   const logoImg = document.querySelector('.logo-img');
-  if (config.logo) {
-    logoImg.src = config.logo;
+  const logo = themeManager.getLogo();
+  if (logo) {
+    logoImg.src = logo;
     logoImg.classList.add('has-logo');
   }
 </script>

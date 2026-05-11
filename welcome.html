@@ -92,20 +92,20 @@
     <div class="loader-subtext" id="loaderSubtext">Verifica configurazione</div>
   </div>
 
-  <script src="js/theme-manager.js"></script>
+  <script src="js/theme-manager-v2.js"></script>
   <script>
     setTimeout(() => {
-      const config = themeManager.getConfig();
+      const isConfigured = themeManager.isConfigured();
       const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
       
       if (isLoggedIn && sessionStorage.getItem('accessToken')) {
         document.getElementById('loaderText').textContent = 'Accesso dashboard';
         document.getElementById('loaderSubtext').textContent = 'Reindirizzamento...';
         setTimeout(() => window.location.href = 'index.html', 300);
-      } else if (!config.configured) {
+      } else if (!isConfigured) {
         document.getElementById('loaderText').textContent = 'Configurazione iniziale';
         document.getElementById('loaderSubtext').textContent = 'Reindirizzamento...';
-        setTimeout(() => window.location.href = 'setup.html', 300);
+        setTimeout(() => window.location.href = 'setup-premium.html', 300);
       } else {
         document.getElementById('loaderText').textContent = 'Pronto';
         document.getElementById('loaderSubtext').textContent = 'Reindirizzamento al login...';

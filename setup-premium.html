@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Setup - Gestionale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/themes-new.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fafafa;
+      color: #0a0a0a;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* === LAYOUT PRINCIPALE 75/25 === */
+    .setup-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      height: 100vh;
+      max-width: 1800px;
+      margin: 0 auto;
+      background: #ffffff;
+    }
+
+    /* === PANNELLO CONFIGURAZIONE (75%) === */
+    .config-panel {
+      padding: 48px 64px;
+      overflow-y: auto;
+      background: #fafafa;
+      border-right: 1px solid #e5e5e5;
+    }
+
+    .config-header {
+      margin-bottom: 40px;
+    }
+
+    .config-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a0a0a;
+      margin-bottom: 8px;
+    }
+
+    .config-subtitle {
+      font-size: 15px;
+      color: #737373;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* === SEZIONI === */
+    .config-section {
+      margin-bottom: 32px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    /* === INPUT PROGETTO === */
+    .project-input {
+      width: 100%;
+      max-width: 480px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #0a0a0a;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .project-input:hover {
+      border-color: #d4d4d4;
+    }
+
+    .project-input:focus {
+      outline: none;
+      border-color: #0a0a0a;
+      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.05);
+    }
+
+    /* === GRIGLIA PALETTE === */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      max-width: 100%;
+    }
+
+    .palette-card {
+      background: #ffffff;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .palette-card:hover {
+      border-color: #0a0a0a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .palette-card.active {
+      border-color: #0a0a0a;
+      border-width: 2px;
+      padding: 11px;
+      box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
+    }
+
+    .palette-card.active::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      background: #0a0a0a;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .palette-preview {
+      height: 56px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .palette-color {
+      flex: 1;
+      transition: all 0.2s ease;
+    }
+
+    .palette-card:hover .palette-color {
+      opacity: 0.9;
+    }
+
+    .palette-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .palette-desc {
+      font-size: 11px;
+      color: #737373;
+      line-height: 1.3;
+    }
+
+    /* === LOGO UPLOAD === */
+    .logo-upload {
+      max-width: 480px;
+      border: 1.5px dashed #d4d4d4;
+      border-radius: 10px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+
+    .logo-upload:hover {
+      border-color: #0a0a0a;
+      background: #fafafa;
+    }
+
+    .logo-upload.has-logo {
+      border-style: solid;
+      border-color: #0a0a0a;
+    }
+
+    .logo-preview {
+      max-width: 80px;
+      max-height: 80px;
+      margin: 0 auto 16px;
+      display: none;
+      border-radius: 6px;
+    }
+
+    .logo-preview.active {
+      display: block;
+    }
+
+    .logo-placeholder {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      opacity: 0.4;
+    }
+
+    .logo-upload.has-logo .logo-placeholder {
+      display: none;
+    }
+
+    .logo-text {
+      font-size: 14px;
+      color: #737373;
+      margin-bottom: 4px;
+    }
+
+    .logo-text strong {
+      color: #0a0a0a;
+      font-weight: 600;
+    }
+
+    .logo-hint {
+      font-size: 12px;
+      color: #a3a3a3;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* === BOTTONE CONTINUA === */
+    .action-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      color: #ffffff;
+      background: #0a0a0a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .action-button:hover {
+      background: #171717;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-button:active {
+      transform: translateY(0);
+    }
+
+    /* === PREVIEW PANEL (25%) === */
+    .preview-panel {
+      background: #ffffff;
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #a3a3a3;
+      margin-bottom: 16px;
+    }
+
+    .preview-mockup {
+      flex: 1;
+      background: var(--bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    /* Preview Components */
+    .preview-navbar {
+      padding: 12px 16px;
+      background: var(--navbar-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-logo {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .preview-menu {
+      display: flex;
+      gap: 4px;
+    }
+
+    .preview-menu-item {
+      width: 6px;
+      height: 6px;
+      background: var(--text-light);
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+
+    .preview-content {
+      flex: 1;
+      padding: 16px;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .preview-card-label {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .preview-card-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .preview-chart {
+      height: 60px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .preview-bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      transition: all 0.3s ease;
+      opacity: 0.9;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 1200px) {
+      .setup-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-panel {
+        display: none;
+      }
+
+      .config-panel {
+        border-right: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .config-panel {
+        padding: 32px 24px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+      }
+
+      .config-title {
+        font-size: 24px;
+      }
+    }
+
+    /* === ANIMAZIONI === */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .config-section {
+      animation: fadeIn 0.4s ease backwards;
+    }
+
+    .config-section:nth-child(1) { animation-delay: 0.05s; }
+    .config-section:nth-child(2) { animation-delay: 0.1s; }
+    .config-section:nth-child(3) { animation-delay: 0.15s; }
+    .config-section:nth-child(4) { animation-delay: 0.2s; }
+
+    /* === SCROLLBAR CUSTOM === */
+    .config-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .config-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .config-panel::-webkit-scrollbar-thumb {
+      background: #d4d4d4;
+      border-radius: 4px;
+    }
+
+    .config-panel::-webkit-scrollbar-thumb:hover {
+      background: #a3a3a3;
+    }
+  </style>
+</head>
+<body>
+  <div class="setup-layout">
+    <!-- === PANNELLO CONFIGURAZIONE === -->
+    <div class="config-panel">
+      <!-- Header -->
+      <div class="config-header">
+        <h1 class="config-title">Configura il tuo gestionale</h1>
+        <p class="config-subtitle">
+          Personalizza nome, colori e logo. La dashboard si aggiornerà in tempo reale.
+        </p>
+      </div>
+
+      <!-- Sezione Nome Progetto -->
+      <div class="config-section">
+        <label class="section-label">Nome Progetto</label>
+        <input 
+          type="text" 
+          id="projectName" 
+          class="project-input" 
+          placeholder="Es: Ristorante Da Mario"
+          value="Gestionale Demo"
+        >
+      </div>
+
+      <!-- Sezione Palette Colori -->
+      <div class="config-section">
+        <label class="section-label">Palette Colori</label>
+        <div class="palette-grid" id="paletteGrid">
+          <!-- Generato dinamicamente -->
+        </div>
+      </div>
+
+      <!-- Sezione Logo -->
+      <div class="config-section">
+        <label class="section-label">Logo (Opzionale)</label>
+        <div class="logo-upload" id="logoUpload">
+          <img id="logoPreview" class="logo-preview" alt="Logo">
+          <div class="logo-placeholder">📁</div>
+          <p class="logo-text">
+            <strong>Clicca per caricare</strong> o trascina qui
+          </p>
+          <p class="logo-hint">PNG, JPG, SVG · Max 2MB</p>
+          <input type="file" id="logoInput" accept="image/*">
+        </div>
+      </div>
+
+      <!-- Bottone Continua -->
+      <div class="config-section">
+        <button class="action-button" id="btnContinue">
+          <span>Continua</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- === PANNELLO PREVIEW === -->
+    <div class="preview-panel">
+      <div class="preview-label">Live Preview</div>
+      
+      <div class="preview-mockup">
+        <!-- Navbar -->
+        <div class="preview-navbar">
+          <div class="preview-logo" id="previewName">Gestionale Demo</div>
+          <div class="preview-menu">
+            <div class="preview-menu-item"></div>
+            <div class="preview-menu-item"></div>
+            <div class="preview-menu-item"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="preview-content">
+          <!-- Cards -->
+          <div class="preview-card">
+            <div class="preview-card-label">Vendite Oggi</div>
+            <div class="preview-card-value">€1,247</div>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-card-label">Ordini Attivi</div>
+            <div class="preview-card-value">23</div>
+          </div>
+
+          <!-- Chart -->
+          <div class="preview-card">
+            <div class="preview-card-label">Andamento</div>
+            <div class="preview-chart" id="previewChart">
+              <!-- Generato da JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/theme-manager-v2.js"></script>
+  <script src="js/setup-premium.js"></script>
+</body>
+</html>
